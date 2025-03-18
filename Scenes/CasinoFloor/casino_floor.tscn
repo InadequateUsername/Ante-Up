@@ -1,0 +1,91 @@
+[gd_scene load_steps=2 format=3 uid="uid://cle7850tvwekt"]
+
+[ext_resource type="Script" uid="uid://b0lr1f5c0xvgl" path="res://Scenes/CasinoFloor/casino_floor.gd" id="1_xwx8d"]
+
+[node name="CasinoFloor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xwx8d")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10135, 0.328373, 0.186105, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -214.0
+offset_right = 214.0
+offset_bottom = 126.0
+grow_horizontal = 2
+
+[node name="CasinoFloorLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 72
+text = "Casino Floor"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Choose a Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameButtonsContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlackjackButton" type="Button" parent="GameButtonsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Blackjack"
+
+[node name="PokerButton" type="Button" parent="GameButtonsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Poker"
+
+[node name="SlotsButton" type="Button" parent="GameButtonsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Slots"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -63.0
+offset_right = 100.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Back"
+
+[node name="AudioParent" type="Node" parent="."]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="AudioParent"]
+
+[node name="UISoundEffect" type="AudioStreamPlayer" parent="AudioParent"]

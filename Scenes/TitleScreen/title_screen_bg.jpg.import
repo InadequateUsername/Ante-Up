@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1phjwbm1siix"
-path="res://.godot/imported/discord.png-a4e86af0b7a0026dde911f1bd32603ec.ctex"
+uid="uid://b66ro1eqrxcli"
+path="res://.godot/imported/title_screen_bg.jpg-2f2ebc71f8da60a750c9a31202a2f293.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TitleScreen/discord.png"
-dest_files=["res://.godot/imported/discord.png-a4e86af0b7a0026dde911f1bd32603ec.ctex"]
+source_file="res://Scenes/TitleScreen/title_screen_bg.jpg"
+dest_files=["res://.godot/imported/title_screen_bg.jpg-2f2ebc71f8da60a750c9a31202a2f293.ctex"]
 
 [params]
 

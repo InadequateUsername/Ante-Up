@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://tvgog2nkh260"]
+[gd_scene load_steps=4 format=3 uid="uid://tvgog2nkh260"]
 
-[ext_resource type="Texture2D" uid="uid://1phjwbm1siix" path="res://TitleScreen/discord.png" id="1_bkvni"]
-[ext_resource type="Texture2D" uid="uid://b66ro1eqrxcli" path="res://TitleScreen/title_screen_bg.jpg" id="1_g0pfn"]
+[ext_resource type="Script" uid="uid://cfj3c6lu7cfak" path="res://Scenes/TitleScreen/title_screen.gd" id="1_81d0i"]
+[ext_resource type="Texture2D" uid="uid://b66ro1eqrxcli" path="res://Scenes/TitleScreen/title_screen_bg.jpg" id="2_e2iei"]
+[ext_resource type="Texture2D" uid="uid://1phjwbm1siix" path="res://Scenes/TitleScreen/discord.png" id="3_xw5ij"]
 
 [node name="RootUINode" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_81d0i")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -21,7 +23,7 @@ offset_bottom = 1173.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.639827, 0.479361)
-texture = ExtResource("1_g0pfn")
+texture = ExtResource("2_e2iei")
 
 [node name="GameTitleLabel" type="Label" parent="."]
 layout_mode = 1
@@ -90,7 +92,7 @@ scale = Vector2(0.129659, 0.128105)
 
 [node name="DiscordButton" type="TextureButton" parent="SocialLinksControl/SocialLinksContainer"]
 layout_mode = 2
-texture_normal = ExtResource("1_bkvni")
+texture_normal = ExtResource("3_xw5ij")
 
 [node name="Label" type="Label" parent="SocialLinksControl/SocialLinksContainer"]
 layout_mode = 2
