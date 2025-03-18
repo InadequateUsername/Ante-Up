@@ -2,9 +2,6 @@ extends Control
 
 # Preload needed scenes
 var card_scene = preload("res://Scenes/PlayingCards/card.tscn")
-# Preload the casino floor scene to avoid path issues
-var casino_floor_scene = preload("res://Scenes/CasinoFloor/casino_floor.tscn")
-var casino_floor_path = "res://Scenes/CasinoFloor/casino_floor.tscn"
 
 # Game state variables
 var current_bet = 0
@@ -47,7 +44,7 @@ func _ready():
 		get_tree().root.add_child(new_global)
 		print("Created Global singleton with chips: ", player_chips)
 	
-	# SIMPLIFIED: Connect back button first and directly
+	# Connect back button first and directly
 	var back_button = $UI/BackButton
 	if back_button:
 		# Disconnect any existing connections to avoid duplicates
@@ -419,11 +416,12 @@ func end_game(result):
 		global.player_chips = player_chips
 		print("Saved chips to Global: ", player_chips)
 
-# SIMPLIFIED BACK BUTTON FUNCTION - Focus on just one reliable method
+# UPDATED back button function to use SceneManager
+# UPDATED back button function to use SceneManager with await
 func _on_back_button_pressed():
-	print("Back button pressed - attempting to return to casino floor")
-
-	# Save chips to Global singleton
+	print("Back button pressed - using SceneManager to return to casino floor")
+	
+	# Save chips to Global singleton first
 	var global = get_node_or_null("/root/Global")
 	if global:
 		global.player_chips = player_chips
@@ -435,27 +433,15 @@ func _on_back_button_pressed():
 		global.set_script(load("res://global.gd"))
 		global.player_chips = player_chips
 		get_tree().root.add_child(global)
-
-	# IMPORTANT: Use ResourceLoader to verify the scene exists before changing to it
-	print("Checking if casino floor scene exists at: " + casino_floor_path)
-	if ResourceLoader.exists(casino_floor_path):
-		print("Casino floor scene exists, changing scene...")
-		var err = get_tree().change_scene_to_file(casino_floor_path)
-		if err != OK:
-			print("ERROR: Failed to change scene. Error code: " + str(err))
-			# Show error to user
-			if result_label and is_instance_valid(result_label):
-				result_label.text = "Error returning to casino. Please restart."
-		else:
-			print("Successfully changed to casino floor scene")
+	
+	# Use SceneManager to return to the casino floor - WITH AWAIT
+	print("Calling SceneManager.back_to_casino_floor() with await")
+	var success = await SceneManager.back_to_casino_floor()
+	
+	if !success:
+		print("ERROR: Failed to return to casino floor using SceneManager")
+		# Show error to user
+		if result_label and is_instance_valid(result_label):
+			result_label.text = "Error returning to casino. Please restart."
 	else:
-		print("ERROR: Casino floor scene does not exist at path: " + casino_floor_path)
-		# Try alternative path
-		var alt_path = "res://casino_floor.tscn"
-		print("Trying alternative path: " + alt_path)
-		if ResourceLoader.exists(alt_path):
-			get_tree().change_scene_to_file(alt_path)
-		else:
-			print("ERROR: Alternative path also failed")
-			if result_label and is_instance_valid(result_label):
-				result_label.text = "Error returning to casino. Please restart."
+		print("Successfully transitioning to casino floor")

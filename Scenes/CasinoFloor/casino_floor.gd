@@ -1,24 +1,25 @@
 extends Control
 
-# Preload game scenes
-var blackjack_scene = preload("res://Scenes/Games/Blackjack/blackjack.tscn")
-# var poker_scene = preload("res://Scenes/Games/Poker/poker.tscn")
-# var slots_scene = preload("res://Scenes/Games/Slots/slots.tscn")
-# var cashier_booth_scene = preload("res://Scenes/CashierBooth/cashier_booth.tscn")
-
 # Player chip variables - will be synced with Global
 var player_chips = 1000
 
 func _ready():
-	# Debug print to check path
 	print("CasinoFloor: _ready function started")
 	
 	# Get chips from Global singleton
-	if Engine.has_singleton("Global") or get_node_or_null("/root/Global"):
-		var global_node = get_node_or_null("/root/Global")
-		if global_node:
-			player_chips = global_node.player_chips
-			print("Found Global, player chips: ", player_chips)
+	var global_node = get_node_or_null("/root/Global")
+	if global_node:
+		player_chips = global_node.player_chips
+		print("Found Global, player chips: ", player_chips)
+	else:
+		print("WARNING: Global singleton not found! Creating it...")
+		# Create Global as failsafe if it doesn't exist
+		global_node = Node.new()
+		global_node.name = "Global"
+		global_node.set_script(load("res://global.gd"))
+		global_node.player_chips = player_chips
+		get_tree().root.add_child(global_node)
+		print("Created Global singleton with chips: ", player_chips)
 	
 	# Connect button signals
 	$GameButtonsContainer/BlackjackButton.connect("pressed", _on_blackjack_button_pressed)
@@ -29,6 +30,8 @@ func _ready():
 	
 	# Update the chips display
 	update_chips_display()
+	
+	print("CasinoFloor: Initialization complete")
 
 # Function to update the chips display
 func update_chips_display():
@@ -44,9 +47,18 @@ func _on_blackjack_button_pressed():
 	if global_node:
 		global_node.player_chips = player_chips
 		print("Saved chips to Global: ", player_chips)
+	else:
+		print("WARNING: Global not found when trying to save chips!")
+		# Create global as failsafe
+		global_node = Node.new()
+		global_node.name = "Global"
+		global_node.set_script(load("res://global.gd"))
+		global_node.player_chips = player_chips
+		get_tree().root.add_child(global_node)
+		print("Created Global singleton with chips: ", player_chips)
 	
-	# Change scene
-	get_tree().change_scene_to_file("res://Scenes/Games/Blackjack/blackjack.tscn")
+	# Use SceneManager to change to blackjack
+	SceneManager.change_scene("blackjack")
 
 # Function to go to the Poker game
 func _on_poker_button_pressed():
@@ -57,8 +69,8 @@ func _on_poker_button_pressed():
 	if global_node:
 		global_node.player_chips = player_chips
 	
-	# Navigate to poker scene when implemented
-	# get_tree().change_scene_to_file("res://Scenes/Games/Poker/poker.tscn")
+	# Use SceneManager to change to poker (when implemented)
+	# SceneManager.change_scene("poker")
 
 # Function to go to the Slots game
 func _on_slots_button_pressed():
@@ -69,8 +81,8 @@ func _on_slots_button_pressed():
 	if global_node:
 		global_node.player_chips = player_chips
 	
-	# Navigate to slots scene when implemented
-	# get_tree().change_scene_to_file("res://Scenes/Games/Slots/slots.tscn")
+	# Use SceneManager to change to slots (when implemented)
+	# SceneManager.change_scene("slots")
 
 # Function to go to the Cashier Booth
 func _on_cashier_booth_button_pressed():
@@ -81,8 +93,8 @@ func _on_cashier_booth_button_pressed():
 	if global_node:
 		global_node.player_chips = player_chips
 	
-	# Navigate to cashier booth scene when implemented
-	# get_tree().change_scene_to_file("res://Scenes/CashierBooth/cashier_booth.tscn")
+	# Use SceneManager to change to cashier booth (when implemented)
+	# SceneManager.change_scene("cashier_booth")
 
 # Return to the title screen
 func _on_back_button_pressed():
@@ -94,4 +106,5 @@ func _on_back_button_pressed():
 		global_node.player_chips = player_chips
 		print("Saving chips before returning to title: ", player_chips)
 	
-	get_tree().change_scene_to_file("res://Scenes/TitleScreen/title_screen.tscn")
+	# Use SceneManager to change to title screen
+	SceneManager.change_scene("title_screen")
