@@ -1,9 +1,109 @@
-[gd_scene format=3 uid="uid://tvgog2nkh260"]
+[gd_scene load_steps=3 format=3 uid="uid://tvgog2nkh260"]
 
-[node name="Control" type="Control"]
+[ext_resource type="Texture2D" uid="uid://1phjwbm1siix" path="res://TitleScreen/discord.png" id="1_bkvni"]
+[ext_resource type="Texture2D" uid="uid://b66ro1eqrxcli" path="res://TitleScreen/title_screen_bg.jpg" id="1_g0pfn"]
+
+[node name="RootUINode" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1080.0
+offset_bottom = 1173.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.639827, 0.479361)
+texture = ExtResource("1_g0pfn")
+
+[node name="MainButtonContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = -245.0
+offset_right = 287.0
+offset_bottom = -6.0
+grow_vertical = 0
+alignment = 1
+
+[node name="NewGameButton" type="Button" parent="MainButtonContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "New Game"
+
+[node name="LoadGameButton" type="Button" parent="MainButtonContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Load Game"
+
+[node name="SettingsButton" type="Button" parent="MainButtonContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Settings"
+
+[node name="SocialLinksControl" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -79.0
+offset_right = -39.0
+offset_bottom = 40.0
+grow_horizontal = 0
+scale = Vector2(1.94746, 1.97742)
+
+[node name="SocialLinksContainer" type="VBoxContainer" parent="SocialLinksControl"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = 5.0
+offset_right = 480.0
+offset_bottom = 517.0
+scale = Vector2(0.129659, 0.128105)
+
+[node name="DiscordButton" type="TextureButton" parent="SocialLinksControl/SocialLinksContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_bkvni")
+
+[node name="Label" type="Label" parent="SocialLinksControl/SocialLinksContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Join the Discord!"
+horizontal_alignment = 1
+
+[node name="VersionPanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.933
+anchor_top = 0.958
+anchor_right = 0.997
+anchor_bottom = 0.995
+offset_left = -1.36011
+offset_top = -0.640015
+offset_right = -0.240112
+offset_bottom = -0.600098
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VersionHBoxContainer" type="HBoxContainer" parent="VersionPanelContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VersionLabel" type="Label" parent="VersionPanelContainer/VersionHBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Version 0.0.1"
+
+[node name="AudioParent" type="Node" parent="."]
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="AudioParent"]
+
+[node name="UISoundEffects" type="AudioStreamPlayer" parent="AudioParent"]
