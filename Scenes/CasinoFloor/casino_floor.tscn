@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cle7850tvwekt"]
+[gd_scene load_steps=3 format=3 uid="uid://cle7850tvwekt"]
 
 [ext_resource type="Script" uid="uid://b0lr1f5c0xvgl" path="res://Scenes/CasinoFloor/casino_floor.gd" id="1_xwx8d"]
+[ext_resource type="Script" uid="uid://d15wg4x3f50db" path="res://Scenes/CasinoFloor/manual_singleton.gd" id="2_0jnkg"]
 
 [node name="CasinoFloor" type="Control"]
 layout_mode = 3
@@ -126,4 +127,7 @@ layout_mode = 2
 [node name="ChipsAmount" type="Label" parent="Chips/ChipsHBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "10000000"
+text = "100"
+
+[node name="Global" type="Node" parent="."]
+script = ExtResource("2_0jnkg")

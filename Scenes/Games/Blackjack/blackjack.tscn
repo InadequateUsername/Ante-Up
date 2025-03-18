@@ -1,0 +1,240 @@
+[gd_scene load_steps=2 format=3 uid="uid://rs67wkptrvjo"]
+
+[ext_resource type="Script" uid="uid://da6k157kvcem0" path="res://Scenes/Games/Blackjack/blackjack.gd" id="1_yk8rt"]
+
+[node name="Blackjack" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yk8rt")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0588235, 0.34902, 0.188235, 1)
+
+[node name="GameArea" type="Node2D" parent="."]
+position = Vector2(948, 528)
+
+[node name="DealerArea" type="Node2D" parent="GameArea"]
+position = Vector2(0, -320)
+
+[node name="DealerLabel" type="Label" parent="GameArea/DealerArea"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = 52.0
+offset_right = 79.0
+offset_bottom = 121.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Dealer"
+
+[node name="DealerCards" type="Node2D" parent="GameArea/DealerArea"]
+position = Vector2(-88, 0)
+
+[node name="DealerScoreLabel" type="Label" parent="GameArea/DealerArea"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = 118.0
+offset_right = 53.0
+offset_bottom = 153.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "Dealer: 0"
+
+[node name="GameDivider" type="ColorRect" parent="GameArea"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -4.0
+offset_right = 960.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerArea" type="Node2D" parent="GameArea"]
+position = Vector2(0, 320)
+
+[node name="PlayerLabel" type="Label" parent="GameArea/PlayerArea"]
+offset_left = -73.0
+offset_top = -101.0
+offset_right = 78.0
+offset_bottom = -32.0
+theme_override_font_sizes/font_size = 50
+text = "Player"
+
+[node name="PlayerCards" type="Node2D" parent="GameArea/PlayerArea"]
+position = Vector2(-88, 0)
+
+[node name="PlayerScoreLabel" type="Label" parent="GameArea/PlayerArea"]
+offset_left = -50.0
+offset_top = -134.0
+offset_right = 53.0
+offset_bottom = -99.0
+theme_override_font_sizes/font_size = 25
+text = "Player: 0"
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TitleLabel" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "BlackJack"
+
+[node name="ChipsContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -265.0
+offset_top = 359.5
+offset_right = -103.0
+offset_bottom = 422.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChipsLabel" type="Label" parent="UI/ChipsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "Chips:"
+
+[node name="ChipsAmount" type="Label" parent="UI/ChipsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "0"
+
+[node name="BetContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 110.0
+offset_top = 359.5
+offset_right = 226.0
+offset_bottom = 422.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BetLabel" type="Label" parent="UI/BetContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "Bet:"
+
+[node name="BetAmount" type="Label" parent="UI/BetContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "0"
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -114.5
+offset_top = -31.0
+offset_right = 114.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+
+[node name="DealButton" type="Button" parent="UI/ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 60
+text = "Deal"
+
+[node name="HitButton" type="Button" parent="UI/ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 60
+text = "Hit"
+
+[node name="StandButton" type="Button" parent="UI/ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 60
+text = "Stand"
+
+[node name="BetIncreaseButton" type="Button" parent="UI/ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 60
+text = "+100"
+
+[node name="BetDecreaseButton" type="Button" parent="UI/ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 60
+text = "-100"
+
+[node name="ResultLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -189.0
+offset_top = 11.5
+offset_right = 189.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "Place your bet and deal to start"
+
+[node name="BackButton" type="Button" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_right = 8.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 50
+text = "Back"
+
+[node name="AudioParent" type="Node" parent="."]
+
+[node name="CardSounds" type="AudioStreamPlayer" parent="AudioParent"]
+
+[node name="WinSound" type="AudioStreamPlayer" parent="AudioParent"]
+
+[node name="LoseSound" type="AudioStreamPlayer" parent="AudioParent"]
