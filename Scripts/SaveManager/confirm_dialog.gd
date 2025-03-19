@@ -1,5 +1,4 @@
 extends ConfirmationDialog
-
 # A simple confirmation dialog for the save system
 # Create a new scene with a ConfirmationDialog and attach this script
 

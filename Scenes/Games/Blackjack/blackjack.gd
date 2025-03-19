@@ -19,8 +19,8 @@ var player_chips = 1000  # Default starting chips
 @onready var player_score_label = $GameArea/PlayerArea/PlayerScoreLabel
 @onready var dealer_score_label = $GameArea/DealerArea/DealerScoreLabel
 @onready var result_label = $UI/ResultLabel
-@onready var chips_label = $UI/ChipsContainer/ChipsAmount
-@onready var bet_label = $UI/BetContainer/BetAmount
+@onready var chips_label = $UI/ButtonsContainer/BetButtonsContainer/ChipsContainer/ChipsAmount
+@onready var bet_label = $UI/ButtonsContainer/BetButtonsContainer/BetContainer/BetAmount
 
 # Game signals
 signal game_ended(result, winnings)
@@ -69,31 +69,31 @@ func _ready():
 # Connect all gameplay buttons
 func connect_game_buttons():
 	# Connect all gameplay buttons directly
-	var deal_button = $UI/ButtonsContainer/DealButton
+	var deal_button = $UI/ButtonsContainer/BetButtonsContainer/DealButton
 	if deal_button:
 		if deal_button.is_connected("pressed", Callable(self, "_on_deal_button_pressed")):
 			deal_button.disconnect("pressed", Callable(self, "_on_deal_button_pressed"))
 		deal_button.connect("pressed", _on_deal_button_pressed)
 	
-	var hit_button = $UI/ButtonsContainer/HitButton
+	var hit_button = $UI/ButtonsContainer/GameButtonsContainer/HitButton
 	if hit_button:
 		if hit_button.is_connected("pressed", Callable(self, "_on_hit_button_pressed")):
 			hit_button.disconnect("pressed", Callable(self, "_on_hit_button_pressed"))
 		hit_button.connect("pressed", _on_hit_button_pressed)
 	
-	var stand_button = $UI/ButtonsContainer/StandButton
+	var stand_button = $UI/ButtonsContainer/GameButtonsContainer/StandButton
 	if stand_button:
 		if stand_button.is_connected("pressed", Callable(self, "_on_stand_button_pressed")):
 			stand_button.disconnect("pressed", Callable(self, "_on_stand_button_pressed"))
 		stand_button.connect("pressed", _on_stand_button_pressed)
 	
-	var bet_increase_button = $UI/ButtonsContainer/BetIncreaseButton
+	var bet_increase_button = $UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton
 	if bet_increase_button:
 		if bet_increase_button.is_connected("pressed", Callable(self, "_on_bet_increase_pressed")):
 			bet_increase_button.disconnect("pressed", Callable(self, "_on_bet_increase_pressed"))
 		bet_increase_button.connect("pressed", _on_bet_increase_pressed)
 	
-	var bet_decrease_button = $UI/ButtonsContainer/BetDecreaseButton
+	var bet_decrease_button = $UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton
 	if bet_decrease_button:
 		if bet_decrease_button.is_connected("pressed", Callable(self, "_on_bet_decrease_pressed")):
 			bet_decrease_button.disconnect("pressed", Callable(self, "_on_bet_decrease_pressed"))
@@ -122,16 +122,16 @@ func initialize_game():
 	update_score_display()
 	
 	# Set initial button states
-	if has_node("UI/ButtonsContainer/HitButton"):
-		get_node("UI/ButtonsContainer/HitButton").disabled = true
-	if has_node("UI/ButtonsContainer/StandButton"):
-		get_node("UI/ButtonsContainer/StandButton").disabled = true
-	if has_node("UI/ButtonsContainer/DealButton"):
-		get_node("UI/ButtonsContainer/DealButton").disabled = false
-	if has_node("UI/ButtonsContainer/BetIncreaseButton"):
-		get_node("UI/ButtonsContainer/BetIncreaseButton").disabled = false
-	if has_node("UI/ButtonsContainer/BetDecreaseButton"):
-		get_node("UI/ButtonsContainer/BetDecreaseButton").disabled = true
+	if has_node("UI/ButtonsContainer/GameButtonsContainer/HitButton"):
+		get_node("UI/ButtonsContainer/GameButtonsContainer/HitButton").disabled = true
+	if has_node("UI/ButtonsContainer/GameButtonsContainer/StandButton"):
+		get_node("UI/ButtonsContainer/GameButtonsContainer/StandButton").disabled = true
+	if has_node("UI/ButtonsContainer/BetButtonsContainer/DealButton"):
+		get_node("UI/ButtonsContainer/BetButtonsContainer/DealButton").disabled = false
+	if has_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton"):
+		get_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton").disabled = false
+	if has_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
+		get_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = true
 	
 	if result_label and is_instance_valid(result_label):
 		result_label.text = "Place your bet and deal to start"
@@ -246,10 +246,10 @@ func _on_bet_increase_pressed():
 		current_bet += 100
 		player_chips -= 100
 		update_chips_display()
-		if has_node("UI/ButtonsContainer/BetDecreaseButton"):
-			get_node("UI/ButtonsContainer/BetDecreaseButton").disabled = false
-		if has_node("UI/ButtonsContainer/DealButton"):
-			get_node("UI/ButtonsContainer/DealButton").disabled = false
+		if has_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
+			get_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = false
+		if has_node("UI/ButtonsContainer/BetButtonsContainer/DealButton"):
+			get_node("UI/ButtonsContainer/BetButtonsContainer/DealButton").disabled = false
 
 func _on_bet_decrease_pressed():
 	if current_bet >= 100 and not game_in_progress:
@@ -258,10 +258,10 @@ func _on_bet_decrease_pressed():
 		update_chips_display()
 		
 		if current_bet <= 0:
-			if has_node("UI/ButtonsContainer/BetDecreaseButton"):
-				get_node("UI/ButtonsContainer/BetDecreaseButton").disabled = true
-			if has_node("UI/ButtonsContainer/DealButton"):
-				get_node("UI/ButtonsContainer/DealButton").disabled = true
+			if has_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
+				get_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = true
+			if has_node("UI/ButtonsContainer/BetButtonsContainer/DealButton"):
+				get_node("UI/ButtonsContainer/BetButtonsContainer/DealButton").disabled = true
 
 # Start a new round
 func _on_deal_button_pressed():
@@ -294,18 +294,18 @@ func _on_deal_button_pressed():
 		print("Score display updated")
 		
 	# Disable betting buttons during game
-	if has_node("UI/ButtonsContainer/BetIncreaseButton"):
-		get_node("UI/ButtonsContainer/BetIncreaseButton").disabled = true
-	if has_node("UI/ButtonsContainer/BetDecreaseButton"):
-		get_node("UI/ButtonsContainer/BetDecreaseButton").disabled = true
-	if has_node("UI/ButtonsContainer/DealButton"):
-		get_node("UI/ButtonsContainer/DealButton").disabled = true
+	if has_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton"):
+		get_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton").disabled = true
+	if has_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
+		get_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = true
+	if has_node("UI/ButtonsContainer/BetButtonsContainer/DealButton"):
+		get_node("UI/ButtonsContainer/BetButtonsContainer/DealButton").disabled = true
 
 	# Enable game action buttons
-	if has_node("UI/ButtonsContainer/HitButton"):
-		get_node("UI/ButtonsContainer/HitButton").disabled = false
-	if has_node("UI/ButtonsContainer/StandButton"):
-		get_node("UI/ButtonsContainer/StandButton").disabled = false
+	if has_node("UI/ButtonsContainer/GameButtonsContainer/HitButton"):
+		get_node("UI/ButtonsContainer/GameButtonsContainer/HitButton").disabled = false
+	if has_node("UI/ButtonsContainer/GameButtonsContainer/StandButton"):
+		get_node("UI/ButtonsContainer/GameButtonsContainer/StandButton").disabled = false
 
 	if result_label and is_instance_valid(result_label):
 		result_label.text = "Your move - Hit or Stand?"
@@ -425,14 +425,14 @@ func end_game(result):
 		result_label.text = message
 	
 	# Reset buttons for next round
-	if has_node("UI/ButtonsContainer/HitButton"):
-		get_node("UI/ButtonsContainer/HitButton").disabled = true
-	if has_node("UI/ButtonsContainer/StandButton"):
-		get_node("UI/ButtonsContainer/StandButton").disabled = true
-	if has_node("UI/ButtonsContainer/DealButton"):
-		get_node("UI/ButtonsContainer/DealButton").disabled = false
-	if has_node("UI/ButtonsContainer/BetIncreaseButton"):
-		get_node("UI/ButtonsContainer/BetIncreaseButton").disabled = false
+	if has_node("UI/ButtonsContainer/GameButtonsContainer/HitButton"):
+		get_node("UI/ButtonsContainer/GameButtonsContainer/HitButton").disabled = true
+	if has_node("UI/ButtonsContainer/GameButtonsContainer/StandButton"):
+		get_node("UI/ButtonsContainer/GameButtonsContainer/StandButton").disabled = true
+	if has_node("UI/ButtonsContainer/BetButtonsContainer/DealButton"):
+		get_node("UI/ButtonsContainer/BetButtonsContainer/DealButton").disabled = false
+	if has_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton"):
+		get_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton").disabled = false
 	
 	# Emit game ended signal
 	emit_signal("game_ended", result, winnings)

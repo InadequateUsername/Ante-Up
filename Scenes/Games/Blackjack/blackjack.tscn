@@ -33,9 +33,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -80.0
-offset_top = 52.0
+offset_top = 148.0
 offset_right = 79.0
-offset_bottom = 121.0
+offset_bottom = 217.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 50
@@ -51,9 +51,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -54.0
-offset_top = 118.0
+offset_top = 214.0
 offset_right = 53.0
-offset_bottom = 153.0
+offset_bottom = 249.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 25
@@ -67,13 +67,13 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -960.0
 offset_top = -4.0
-offset_right = 960.0
+offset_right = 973.0
 offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PlayerArea" type="Node2D" parent="GameArea"]
-position = Vector2(0, 320)
+position = Vector2(0, 392)
 
 [node name="PlayerLabel" type="Label" parent="GameArea/PlayerArea"]
 offset_left = -73.0
@@ -84,7 +84,7 @@ theme_override_font_sizes/font_size = 50
 text = "Player"
 
 [node name="PlayerCards" type="Node2D" parent="GameArea/PlayerArea"]
-position = Vector2(-88, 0)
+position = Vector2(-88, -298)
 
 [node name="PlayerScoreLabel" type="Label" parent="GameArea/PlayerArea"]
 offset_left = -50.0
@@ -112,97 +112,85 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "BlackJack"
 
-[node name="ChipsContainer" type="HBoxContainer" parent="UI"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -265.0
-offset_top = 359.5
-offset_right = -103.0
-offset_bottom = 422.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ChipsLabel" type="Label" parent="UI/ChipsContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 45
-text = "Chips:"
-
-[node name="ChipsAmount" type="Label" parent="UI/ChipsContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 45
-text = "0"
-
-[node name="BetContainer" type="HBoxContainer" parent="UI"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 110.0
-offset_top = 359.5
-offset_right = 226.0
-offset_bottom = 422.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BetLabel" type="Label" parent="UI/BetContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 45
-text = "Bet:"
-
-[node name="BetAmount" type="Label" parent="UI/BetContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 45
-text = "0"
-
-[node name="ButtonsContainer" type="HBoxContainer" parent="UI"]
+[node name="ButtonsContainer" type="VBoxContainer" parent="UI"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -114.5
-offset_top = -31.0
-offset_right = 114.5
+offset_left = -233.0
+offset_top = -186.0
+offset_right = 233.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 30
+alignment = 1
 
-[node name="DealButton" type="Button" parent="UI/ButtonsContainer"]
+[node name="GameButtonsContainer" type="HBoxContainer" parent="UI/ButtonsContainer"]
 layout_mode = 2
-theme_override_constants/line_spacing = 0
-theme_override_font_sizes/font_size = 60
-text = "Deal"
+theme_override_constants/separation = 30
+alignment = 1
 
-[node name="HitButton" type="Button" parent="UI/ButtonsContainer"]
+[node name="HitButton" type="Button" parent="UI/ButtonsContainer/GameButtonsContainer"]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 60
 text = "Hit"
 
-[node name="StandButton" type="Button" parent="UI/ButtonsContainer"]
+[node name="StandButton" type="Button" parent="UI/ButtonsContainer/GameButtonsContainer"]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 60
 text = "Stand"
 
-[node name="BetIncreaseButton" type="Button" parent="UI/ButtonsContainer"]
+[node name="BetButtonsContainer" type="HBoxContainer" parent="UI/ButtonsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="ChipsContainer" type="HBoxContainer" parent="UI/ButtonsContainer/BetButtonsContainer"]
+layout_mode = 2
+
+[node name="ChipsLabel" type="Label" parent="UI/ButtonsContainer/BetButtonsContainer/ChipsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "Chips:"
+
+[node name="ChipsAmount" type="Label" parent="UI/ButtonsContainer/BetButtonsContainer/ChipsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "0"
+
+[node name="BetDecreaseButton" type="Button" parent="UI/ButtonsContainer/BetButtonsContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 60
+text = "-100"
+
+[node name="DealButton" type="Button" parent="UI/ButtonsContainer/BetButtonsContainer"]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 60
+text = "Deal"
+
+[node name="BetIncreaseButton" type="Button" parent="UI/ButtonsContainer/BetButtonsContainer"]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 60
 text = "+100"
 
-[node name="BetDecreaseButton" type="Button" parent="UI/ButtonsContainer"]
+[node name="BetContainer" type="HBoxContainer" parent="UI/ButtonsContainer/BetButtonsContainer"]
 layout_mode = 2
-theme_override_constants/line_spacing = 0
-theme_override_font_sizes/font_size = 60
-text = "-100"
+
+[node name="BetLabel" type="Label" parent="UI/ButtonsContainer/BetButtonsContainer/BetContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "Bet:"
+
+[node name="BetAmount" type="Label" parent="UI/ButtonsContainer/BetButtonsContainer/BetContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "0"
 
 [node name="ResultLabel" type="Label" parent="UI"]
 layout_mode = 1
