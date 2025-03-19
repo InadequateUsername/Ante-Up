@@ -28,12 +28,15 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -214.0
 offset_right = 214.0
-offset_bottom = 126.0
+offset_bottom = 138.0
 grow_horizontal = 2
 
-[node name="CasinoFloorLabel" type="Label" parent="VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 72
+
+[node name="CasinoFloorLabel" type="Label" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
 text = "Casino Floor"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -58,6 +61,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 15
 
 [node name="Chips" type="PanelContainer" parent="GameButtonsContainer"]
 layout_mode = 2
@@ -85,17 +89,17 @@ layout_mode = 2
 [node name="BlackjackButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "🃏 Blackjack"
+text = "🃏 Blackjack 🃏"
 
 [node name="PokerButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "🃏 Poker"
+text = "🃏 Poker 🃏"
 
 [node name="SlotsButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "🎰 Slots"
+text = "🎰 Slots 🎰"
 
 [node name="HSeparator" type="HSeparator" parent="GameButtonsContainer"]
 layout_mode = 2
@@ -111,8 +115,9 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -123.0
-offset_bottom = 77.0
+offset_bottom = 57.0
 grow_horizontal = 0
+theme_override_constants/separation = 15
 
 [node name="BackButton" type="Button" parent="ReturnButtonsContainer"]
 layout_mode = 2

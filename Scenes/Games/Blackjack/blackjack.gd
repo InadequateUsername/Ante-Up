@@ -5,6 +5,7 @@ var card_scene = preload("res://Scenes/PlayingCards/card.tscn")
 
 # Game state variables
 var current_bet = 0
+var previous_bet = 0
 var game_in_progress = false
 var deck = []
 var player_chips = 1000  # Default starting chips
@@ -277,6 +278,7 @@ func _on_bet_decrease_pressed():
 				get_node("UI/ButtonsContainer/BetButtonsContainer/DealButton").disabled = true
 
 # Start a new round
+# Start a new round
 func _on_deal_button_pressed():
 	if current_bet > 0:
 		print("=== STARTING NEW BLACKJACK HAND ===")
@@ -306,25 +308,25 @@ func _on_deal_button_pressed():
 		update_score_display()
 		print("Score display updated")
 		
-	# Disable betting buttons during game
-	if has_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton"):
-		get_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton").disabled = true
-	if has_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
-		get_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = true
-	if has_node("UI/ButtonsContainer/BetButtonsContainer/DealButton"):
-		get_node("UI/ButtonsContainer/BetButtonsContainer/DealButton").disabled = true
+		# Disable betting buttons during game
+		if has_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetIncreaseButton"):
+			get_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetIncreaseButton").disabled = true
+		if has_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
+			get_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = true
+		if has_node("UI/ButtonsPanelContainer/ButtonsContainer/DealButtonContainer/DealButton"):
+			get_node("UI/ButtonsPanelContainer/ButtonsContainer/DealButtonContainer/DealButton").disabled = true
 
-	# Enable game action buttons
-	if has_node("UI/ButtonsContainer/GameButtonsContainer/HitButton"):
-		get_node("UI/ButtonsContainer/GameButtonsContainer/HitButton").disabled = false
-	if has_node("UI/ButtonsContainer/GameButtonsContainer/StandButton"):
-		get_node("UI/ButtonsContainer/GameButtonsContainer/StandButton").disabled = false
+		# Enable game action buttons
+		if has_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/HitButton"):
+			get_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/HitButton").disabled = false
+		if has_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/StandButton"):
+			get_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/StandButton").disabled = false
 
-	if result_label and is_instance_valid(result_label):
-		result_label.text = "Your move - Hit or Stand?"
-		
-		# Check for blackjack
-		check_for_blackjack()
+		if result_label and is_instance_valid(result_label):
+			result_label.text = "Your move - Hit or Stand?"
+			
+			# Check for blackjack
+			check_for_blackjack()
 
 # Player draws another card
 func _on_hit_button_pressed():
@@ -332,8 +334,20 @@ func _on_hit_button_pressed():
 		add_card_to_hand(player_hand, player_cards_container)
 		
 		var player_value = calculate_hand_value(player_hand)
+		
 		if player_value > 21:
 			end_game("bust")
+		elif player_value == 21:
+			# Auto-stand when player hits and gets exactly 21
+			print("Player hit to 21 - automatically standing")
+			if result_label and is_instance_valid(result_label):
+				result_label.text = "21! Standing automatically..."
+			
+			# Add a slight delay for visual effect
+			await get_tree().create_timer(0.5).timeout
+			
+			# Call dealer turn (same as standing)
+			dealer_turn()
 
 # Player stands, dealer's turn
 func _on_stand_button_pressed():
@@ -397,7 +411,6 @@ func determine_winner():
 	else:
 		end_game("push")  # Tie
 
-# End the game with a given result
 func end_game(result):
 	game_in_progress = false
 	
@@ -429,23 +442,28 @@ func end_game(result):
 			winnings = 0
 			message = "Dealer has blackjack. You lose your bet."
 	
+	# Store the previous bet before resetting current_bet
+	previous_bet = current_bet
+	
+	# Add winnings to player chips
 	player_chips += winnings
+	
+	# Reset current bet to 0 temporarily
 	current_bet = 0
-	update_chips_display()
 	
 	# Show result message
 	if result_label and is_instance_valid(result_label):
 		result_label.text = message
 	
 	# Reset buttons for next round
-	if has_node("UI/ButtonsContainer/GameButtonsContainer/HitButton"):
-		get_node("UI/ButtonsContainer/GameButtonsContainer/HitButton").disabled = true
-	if has_node("UI/ButtonsContainer/GameButtonsContainer/StandButton"):
-		get_node("UI/ButtonsContainer/GameButtonsContainer/StandButton").disabled = true
-	if has_node("UI/ButtonsContainer/BetButtonsContainer/DealButton"):
-		get_node("UI/ButtonsContainer/BetButtonsContainer/DealButton").disabled = false
-	if has_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton"):
-		get_node("UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton").disabled = false
+	if has_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/HitButton"):
+		get_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/HitButton").disabled = true
+	if has_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/StandButton"):
+		get_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/StandButton").disabled = true
+	if has_node("UI/ButtonsPanelContainer/ButtonsContainer/DealButtonContainer/DealButton"):
+		get_node("UI/ButtonsPanelContainer/ButtonsContainer/DealButtonContainer/DealButton").disabled = false
+	if has_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetIncreaseButton"):
+		get_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetIncreaseButton").disabled = false
 	
 	# Emit game ended signal
 	emit_signal("game_ended", result, winnings)
@@ -458,6 +476,33 @@ func end_game(result):
 		
 		# Update game statistics
 		global.update_blackjack_stats(result, winnings)
+	
+	# Automatically place the previous bet if the player has enough chips
+	await get_tree().create_timer(1.0).timeout  # Short delay for visual effect
+	
+	if previous_bet > 0 and player_chips >= previous_bet:
+		# Place the previous bet automatically
+		current_bet = previous_bet
+		player_chips -= current_bet
+		
+		# Update the display
+		update_chips_display()
+		
+		# Enable bet controls (including Decrease button since we have a bet)
+		if has_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
+			get_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = false
+		
+		# Update the message
+		if result_label and is_instance_valid(result_label):
+			result_label.text = "Previous bet placed: " + str(current_bet) + ". Ready to deal or adjust bet."
+	else:
+		# If player doesn't have enough chips for the previous bet
+		if result_label and is_instance_valid(result_label):
+			result_label.text += "\nPlace your bet to start a new hand."
+		
+		# Make sure Decrease button is disabled (no bet to decrease)
+		if has_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
+			get_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = true
 
 # UPDATED back button function to use SceneManager
 func _on_back_button_pressed():

@@ -107,7 +107,10 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="TitleLabel" type="Label" parent="UI/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="UI/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "BlackJack"
@@ -136,6 +139,7 @@ anchor_right = 1.0
 offset_left = -19.0
 offset_bottom = 40.0
 grow_horizontal = 0
+theme_override_constants/separation = 15
 
 [node name="BackButton" type="Button" parent="UI/ReturnButtonsContainer"]
 layout_mode = 2
@@ -155,10 +159,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -169.0
-offset_top = -359.0
-offset_right = -24.0
-offset_bottom = -25.0
+offset_left = -425.0
+offset_top = -397.0
+offset_right = -57.0
+offset_bottom = -56.0
 grow_horizontal = 0
 grow_vertical = 0
 
