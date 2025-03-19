@@ -26,17 +26,17 @@ func _ready():
 	$GameButtonsContainer/PokerButton.connect("pressed", _on_poker_button_pressed)
 	$GameButtonsContainer/SlotsButton.connect("pressed", _on_slots_button_pressed)
 	$GameButtonsContainer/CashierBoothButton.connect("pressed", _on_cashier_booth_button_pressed)
-	$BackButton.connect("pressed", _on_back_button_pressed)
-	$ExitButton.connect("pressed", _on_exit_button_pressed)  # Connect the Exit button
+	$ReturnButtonsContainer/BackButton.connect("pressed", _on_back_button_pressed)
+	$ReturnButtonsContainer/ExitButton.connect("pressed", _on_exit_button_pressed)  # Connect the Exit button
 	
 	# Update the chips display
 	update_chips_display()
 	
 	print("CasinoFloor: Initialization complete")
-
+	
 # Function to update the chips display
 func update_chips_display():
-	$Chips/ChipsHBoxContainer/ChipsAmount.text = str(int(player_chips))
+	$GameButtonsContainer/Chips/ChipsHBoxContainer/ChipsAmount.text = str(int(player_chips))
 	print("Updated chips display: ", int(player_chips))
 
 # Function to go to the Blackjack game

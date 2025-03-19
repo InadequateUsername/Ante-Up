@@ -19,8 +19,8 @@ var player_chips = 1000  # Default starting chips
 @onready var player_score_label = $GameArea/PlayerArea/PlayerScoreLabel
 @onready var dealer_score_label = $GameArea/DealerArea/DealerScoreLabel
 @onready var result_label = $UI/ResultLabel
-@onready var chips_label = $UI/ButtonsContainer/BetButtonsContainer/ChipsContainer/ChipsAmount
-@onready var bet_label = $UI/ButtonsContainer/BetButtonsContainer/BetContainer/BetAmount
+@onready var chips_label = $UI/ButtonsPanelContainer/ButtonsContainer/ChipsAmount
+@onready var bet_label = $UI/ButtonsPanelContainer/ButtonsContainer/BetAmount
 
 # Game signals
 signal game_ended(result, winnings)
@@ -45,7 +45,7 @@ func _ready():
 		print("Created Global singleton with chips: ", player_chips)
 	
 	# Connect back button first and directly
-	var back_button = $UI/BackButton
+	var back_button = $UI/ReturnButtonsContainer/BackButton
 	if back_button:
 		# Disconnect any existing connections to avoid duplicates
 		if back_button.is_connected("pressed", Callable(self, "_on_back_button_pressed")):
@@ -55,6 +55,19 @@ func _ready():
 		print("Back button connected successfully")
 	else:
 		print("CRITICAL: Back button not found at UI/BackButton!")
+	
+	
+	var exit_button = $UI/ReturnButtonsContainer/ExitButton
+	if exit_button:
+		# Disconnect any existing connections to avoid duplicates
+		if exit_button.is_connected("pressed", Callable(self, "_on_exit_button_pressed")):
+			exit_button.disconnect("pressed", Callable(self, "_on_exit_button_pressed"))
+		# Connect exit button directly
+		exit_button.connect("pressed", _on_exit_button_pressed)
+		print("Exit button connected successfully")
+	else:
+		print("WARNING: Exit button not found at UI/ExitButton!")
+	
 	
 	# Connect other game buttons
 	connect_game_buttons()
@@ -69,31 +82,31 @@ func _ready():
 # Connect all gameplay buttons
 func connect_game_buttons():
 	# Connect all gameplay buttons directly
-	var deal_button = $UI/ButtonsContainer/BetButtonsContainer/DealButton
+	var deal_button = $UI/ButtonsPanelContainer/ButtonsContainer/DealButtonContainer/DealButton
 	if deal_button:
 		if deal_button.is_connected("pressed", Callable(self, "_on_deal_button_pressed")):
 			deal_button.disconnect("pressed", Callable(self, "_on_deal_button_pressed"))
 		deal_button.connect("pressed", _on_deal_button_pressed)
 	
-	var hit_button = $UI/ButtonsContainer/GameButtonsContainer/HitButton
+	var hit_button = $UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/HitButton
 	if hit_button:
 		if hit_button.is_connected("pressed", Callable(self, "_on_hit_button_pressed")):
 			hit_button.disconnect("pressed", Callable(self, "_on_hit_button_pressed"))
 		hit_button.connect("pressed", _on_hit_button_pressed)
 	
-	var stand_button = $UI/ButtonsContainer/GameButtonsContainer/StandButton
+	var stand_button = $UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/StandButton
 	if stand_button:
 		if stand_button.is_connected("pressed", Callable(self, "_on_stand_button_pressed")):
 			stand_button.disconnect("pressed", Callable(self, "_on_stand_button_pressed"))
 		stand_button.connect("pressed", _on_stand_button_pressed)
 	
-	var bet_increase_button = $UI/ButtonsContainer/BetButtonsContainer/BetIncreaseButton
+	var bet_increase_button = $UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetIncreaseButton
 	if bet_increase_button:
 		if bet_increase_button.is_connected("pressed", Callable(self, "_on_bet_increase_pressed")):
 			bet_increase_button.disconnect("pressed", Callable(self, "_on_bet_increase_pressed"))
 		bet_increase_button.connect("pressed", _on_bet_increase_pressed)
 	
-	var bet_decrease_button = $UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton
+	var bet_decrease_button = $UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetDecreaseButton
 	if bet_decrease_button:
 		if bet_decrease_button.is_connected("pressed", Callable(self, "_on_bet_decrease_pressed")):
 			bet_decrease_button.disconnect("pressed", Callable(self, "_on_bet_decrease_pressed"))
@@ -479,6 +492,38 @@ func _on_back_button_pressed():
 			result_label.text = "Error returning to casino. Please restart."
 	else:
 		print("Successfully transitioning to casino floor")
+	
+	# Function to handle the Exit button press
+func _on_exit_button_pressed():
+	print("Exit button pressed on blackjack game")
+	
+	# Save chips to Global singleton first
+	var global = get_node_or_null("/root/Global")
+	if global:
+		global.player_chips = player_chips
+		print("Saved " + str(player_chips) + " chips to Global before quitting")
+	else:
+		print("WARNING: Global not found, creating it")
+		global = Node.new()
+		global.name = "Global"
+		global.set_script(load("res://global.gd"))
+		global.player_chips = player_chips
+		get_tree().root.add_child(global)
+	
+	# Trigger auto-save before quitting
+	var save_manager = get_node_or_null("/root/SaveManager")
+	if save_manager:
+		print("Auto-saving before quitting...")
+		save_manager.save_game()
+		print("Save completed")
+	
+	# Add a slight delay to ensure save completes
+	print("Quitting game in 0.5 seconds...")
+	await get_tree().create_timer(0.5).timeout
+	
+	# Quit the game
+	print("Exiting application")
+	get_tree().quit()
 	
 func reveal_dealer_cards():
 	print("Revealing all dealer cards")
