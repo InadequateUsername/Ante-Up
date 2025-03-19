@@ -56,6 +56,12 @@ offset_bottom = -6.0
 grow_vertical = 0
 alignment = 1
 
+[node name="SaveInfoLabel" type="Label" parent="MainButtonContainer"]
+layout_mode = 2
+text = "Last Save: [date]\\nChips: [amount]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="NewGameButton" type="Button" parent="MainButtonContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
@@ -70,6 +76,11 @@ text = "Load Game"
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Settings"
+
+[node name="QuitGameButton" type="Button" parent="MainButtonContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Quit Game"
 
 [node name="SocialLinksControl" type="Control" parent="."]
 layout_mode = 1
@@ -128,13 +139,3 @@ text = "Version 0.0.1"
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="AudioParent"]
 
 [node name="UISoundEffects" type="AudioStreamPlayer" parent="AudioParent"]
-
-[node name="SaveInfoLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 780.0
-offset_right = 279.0
-offset_bottom = 803.0
-text = "Last Save: [date]\\nChips: [amount]"
-horizontal_alignment = 1
-vertical_alignment = 1

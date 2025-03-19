@@ -27,6 +27,7 @@ func _ready():
 	$GameButtonsContainer/SlotsButton.connect("pressed", _on_slots_button_pressed)
 	$GameButtonsContainer/CashierBoothButton.connect("pressed", _on_cashier_booth_button_pressed)
 	$BackButton.connect("pressed", _on_back_button_pressed)
+	$ExitButton.connect("pressed", _on_exit_button_pressed)  # Connect the Exit button
 	
 	# Update the chips display
 	update_chips_display()
@@ -117,3 +118,35 @@ func _on_back_button_pressed():
 	if !success:
 		print("ERROR: Failed to transition to title screen")
 	SceneManager.change_scene("title_screen")
+
+# Function to handle the Exit button press
+func _on_exit_button_pressed():
+	print("Exit button pressed on casino floor")
+
+	# Save chips to Global singleton first
+	var global_node = get_node_or_null("/root/Global")
+	if global_node:
+		global_node.player_chips = player_chips
+		print("Saved " + str(player_chips) + " chips to Global before quitting")
+	else:
+		print("WARNING: Global not found, creating it")
+		global_node = Node.new()
+		global_node.name = "Global"
+		global_node.set_script(load("res://global.gd"))
+		global_node.player_chips = player_chips
+		get_tree().root.add_child(global_node)
+	
+	# Trigger auto-save before quitting
+	var save_manager = get_node_or_null("/root/SaveManager")
+	if save_manager:
+		print("Auto-saving before quitting...")
+		save_manager.save_game()
+		print("Save completed")
+	
+	# Add a slight delay to ensure save completes
+	print("Quitting game in 0.5 seconds...")
+	await get_tree().create_timer(0.5).timeout
+
+	# Quit the game
+	print("Exiting application")
+	get_tree().quit()

@@ -3,9 +3,6 @@ extends Control
 var confirm_dialog_scene = preload("res://Scripts/SaveManager/confirm_dialog.tscn")
 var confirm_dialog = null
 
-# Update the title_screen.gd file to display integers
-
-# Modify the _ready function to ensure chip values are displayed as integers
 func _ready():
 	print("Title Screen: Initializing...")
 	
@@ -13,6 +10,7 @@ func _ready():
 	$MainButtonContainer/NewGameButton.connect("pressed", _on_new_game_button_pressed)
 	$MainButtonContainer/LoadGameButton.connect("pressed", _on_load_game_button_pressed)
 	$MainButtonContainer/SettingsButton.connect("pressed", _on_settings_button_pressed)
+	$MainButtonContainer/QuitGameButton.connect("pressed", _on_quit_game_button_pressed)
 	$SocialLinksControl/SocialLinksContainer/DiscordButton.connect("pressed", _on_discord_button_pressed)
 	
 	# Create the confirmation dialog
@@ -20,20 +18,51 @@ func _ready():
 	add_child(confirm_dialog)
 	confirm_dialog.confirmed.connect(_on_new_game_confirmed)
 	
+	# Make sure SaveInfoLabel is hidden by default
+	if has_node("MainButtonContainer/SaveInfoLabel"):
+		$MainButtonContainer/SaveInfoLabel.visible = false
+	
 	# Check if save exists and update Load Game button accordingly
 	var save_manager = get_node_or_null("/root/SaveManager")
 	if save_manager:
 		$MainButtonContainer/LoadGameButton.disabled = !save_manager.has_save()
 		
 		# If a save exists, display save info in a label
-		if save_manager.has_save() and has_node("SaveInfoLabel"):
+		if save_manager.has_save():
 			var save_info = save_manager.get_save_info()
 			if save_info:
+				# Ensure save_info is not null before trying to use it
+				print("Save info found: ", save_info)
+				
 				var date_str = save_manager.format_timestamp(save_info["timestamp"])
 				# Convert chips to integer before displaying
 				var chips_str = str(int(save_info["player_chips"]))
-				$SaveInfoLabel.text = "Last save: " + date_str + "\nChips: " + chips_str
-				$SaveInfoLabel.visible = true
+				
+				# Create the info text
+				var info_text = "Last save: " + date_str + "\nChips: " + chips_str
+				
+				# Find and update the SaveInfoLabel
+				if has_node("MainButtonContainer/SaveInfoLabel"):
+					var save_label = $MainButtonContainer/SaveInfoLabel
+					save_label.text = info_text
+					save_label.visible = true
+					print("Updated SaveInfoLabel: " + info_text)
+				else:
+					print("ERROR: SaveInfoLabel not found in MainButtonContainer")
+					
+					# Try to find it by class type as a fallback
+					for child in $MainButtonContainer.get_children():
+						if child is Label:
+							child.text = info_text
+							child.visible = true
+							print("Found and updated alternate label: " + child.name)
+							break
+			else:
+				print("WARNING: Save info is null even though has_save() returned true")
+		else:
+			print("No save file exists according to has_save()")
+	else:
+		print("WARNING: SaveManager singleton not found")
 	
 	print("Title Screen: Initialization complete")
 
@@ -129,3 +158,25 @@ func _on_settings_button_pressed():
 func _on_discord_button_pressed():
 	# Open Discord link in browser
 	OS.shell_open("https://discord.gg/BKc3EWexgB")
+
+# Function called when Quit Game button is pressed
+func _on_quit_game_button_pressed():
+	print("Quit Game button pressed")
+
+	# Check if save exists and should be updated
+	var global = get_node_or_null("/root/Global")
+	var save_manager = get_node_or_null("/root/SaveManager")
+
+	if global and save_manager:
+		# Make sure any current game state is saved
+		print("Auto-saving before quitting...")
+		save_manager.save_game()
+		print("Save completed")
+	
+	# Add a slight delay to ensure save completes
+	print("Quitting game in 0.5 seconds...")
+	await get_tree().create_timer(0.5).timeout
+
+	# Quit the game
+	print("Exiting application")
+	get_tree().quit()
