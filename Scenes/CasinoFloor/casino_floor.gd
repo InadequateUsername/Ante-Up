@@ -122,7 +122,12 @@ func _on_back_button_pressed():
 # Function to handle the Exit button press
 func _on_exit_button_pressed():
 	print("Exit button pressed on casino floor")
-
+	
+	# Get the cleanup manager and clean up all dialogs
+	var cleanup_manager = get_node_or_null("/root/CleanupManager")
+	if cleanup_manager:
+		cleanup_manager.cleanup_all_dialogs()
+	
 	# Save chips to Global singleton first
 	var global_node = get_node_or_null("/root/Global")
 	if global_node:
@@ -146,7 +151,7 @@ func _on_exit_button_pressed():
 	# Add a slight delay to ensure save completes
 	print("Quitting game in 0.5 seconds...")
 	await get_tree().create_timer(0.5).timeout
-
+	
 	# Quit the game
 	print("Exiting application")
 	get_tree().quit()

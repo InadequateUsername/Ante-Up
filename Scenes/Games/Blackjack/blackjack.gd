@@ -238,21 +238,13 @@ func update_score_display():
 		
 	# Calculate dealer score based on face-up cards only
 	var visible_dealer_cards = []
-	var all_face_up = true
-	
+
 	for card in dealer_hand:
 		if card.face_up:
 			visible_dealer_cards.append(card)
-		else:
-			all_face_up = false
-	
+
 	var visible_dealer_value = calculate_hand_value(visible_dealer_cards)
-	
-	# If not all cards are face up, show "?" for dealer score
-	if !all_face_up:
-		dealer_score_label.text = "Dealer: ?"
-	else:
-		dealer_score_label.text = "Dealer: " + str(visible_dealer_value)
+	dealer_score_label.text = "Dealer: " + str(visible_dealer_value)
 
 # Change bet amount
 func _on_bet_increase_pressed():

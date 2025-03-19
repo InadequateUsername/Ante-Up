@@ -6,8 +6,8 @@ extends Node
 signal save_completed(success, message)
 signal save_loaded(success, message)
 
-const SAVE_FILE_PATH = "user://casino_save.dat"
-const BACKUP_SAVE_PATH = "user://casino_save_backup.dat"
+const SAVE_FILE_PATH = "user://ante_up_save.dat"
+const BACKUP_SAVE_PATH = "user://ante_up_save_backup.dat"
 
 # Basic structure of save data
 var default_save_data = {

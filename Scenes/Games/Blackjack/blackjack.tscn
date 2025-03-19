@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://rs67wkptrvjo"]
+[gd_scene load_steps=4 format=3 uid="uid://rs67wkptrvjo"]
 
 [ext_resource type="Script" uid="uid://da6k157kvcem0" path="res://Scenes/Games/Blackjack/blackjack.gd" id="1_yk8rt"]
+[ext_resource type="PackedScene" uid="uid://b8tj7kn077d3v" path="res://Scenes/PlayingCards/card.tscn" id="2_3txm1"]
+[ext_resource type="Texture2D" uid="uid://bhcil67sdkh3u" path="res://Assets/table.png" id="2_i0vn2"]
 
 [node name="Blackjack" type="Control"]
 layout_mode = 3
@@ -20,11 +22,17 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0588235, 0.34902, 0.188235, 1)
 
+[node name="Table" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_i0vn2")
+
 [node name="GameArea" type="Node2D" parent="."]
-position = Vector2(948, 528)
+position = Vector2(960, 512)
 
 [node name="DealerArea" type="Node2D" parent="GameArea"]
-position = Vector2(0, -320)
+position = Vector2(0, -315)
 
 [node name="DealerLabel" type="Label" parent="GameArea/DealerArea"]
 anchors_preset = 8
@@ -33,16 +41,24 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -80.0
-offset_top = 148.0
+offset_top = -133.0
 offset_right = 79.0
-offset_bottom = 217.0
+offset_bottom = -64.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 50
-text = "Dealer"
+text = "Dealer Jonotan"
+horizontal_alignment = 1
 
 [node name="DealerCards" type="Node2D" parent="GameArea/DealerArea"]
-position = Vector2(-88, 0)
+position = Vector2(-96, 140)
+
+[node name="Node2D" type="Node2D" parent="GameArea/DealerArea/DealerCards"]
+
+[node name="Card" parent="GameArea/DealerArea/DealerCards/Node2D" instance=ExtResource("2_3txm1")]
 
 [node name="DealerScoreLabel" type="Label" parent="GameArea/DealerArea"]
 anchors_preset = 8
@@ -51,48 +67,52 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -54.0
-offset_top = 214.0
+offset_top = -67.0
 offset_right = 53.0
-offset_bottom = 249.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 25
-text = "Dealer: 0"
-
-[node name="GameDivider" type="ColorRect" parent="GameArea"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -960.0
-offset_top = -4.0
-offset_right = 973.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
+text = "0"
+horizontal_alignment = 1
 
 [node name="PlayerArea" type="Node2D" parent="GameArea"]
-position = Vector2(0, 392)
+position = Vector2(0, 399)
 
 [node name="PlayerLabel" type="Label" parent="GameArea/PlayerArea"]
 offset_left = -73.0
-offset_top = -101.0
+offset_top = 77.0
 offset_right = 78.0
-offset_bottom = -32.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 50
 text = "Player"
+horizontal_alignment = 1
 
 [node name="PlayerCards" type="Node2D" parent="GameArea/PlayerArea"]
-position = Vector2(-88, -298)
+position = Vector2(-93, -143)
+
+[node name="Node2D" type="Node2D" parent="GameArea/PlayerArea/PlayerCards"]
+
+[node name="Card" parent="GameArea/PlayerArea/PlayerCards/Node2D" instance=ExtResource("2_3txm1")]
+position = Vector2(39, 12)
 
 [node name="PlayerScoreLabel" type="Label" parent="GameArea/PlayerArea"]
 offset_left = -50.0
-offset_top = -134.0
+offset_top = 57.0
 offset_right = 53.0
-offset_bottom = -99.0
+offset_bottom = 92.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 25
-text = "Player: 0"
+text = "0"
+horizontal_alignment = 1
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 1
@@ -113,7 +133,7 @@ layout_mode = 2
 [node name="TitleLabel" type="Label" parent="UI/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
-text = "BlackJack"
+text = "Blackjack"
 
 [node name="ResultLabel" type="Label" parent="UI"]
 layout_mode = 1
@@ -160,12 +180,13 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -425.0
-offset_top = -397.0
-offset_right = -57.0
-offset_bottom = -56.0
+offset_left = -312.0
+offset_top = -375.0
+offset_right = -73.0
+offset_bottom = -40.0
 grow_horizontal = 0
 grow_vertical = 0
+scale = Vector2(1.03723, 0.93299)
 
 [node name="ButtonsContainer" type="VBoxContainer" parent="UI/ButtonsPanelContainer"]
 layout_mode = 2
@@ -176,7 +197,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="UI/ButtonsPanelContainer/ButtonsContainer/PanelContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
-text = "Player Menu"
 horizontal_alignment = 1
 
 [node name="GameButtonsContainer" type="HBoxContainer" parent="UI/ButtonsPanelContainer/ButtonsContainer"]

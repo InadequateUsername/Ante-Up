@@ -1,35 +1,57 @@
 extends Node
 
-# A helper class to ensure global state persists
-# This class is now updated to work with SceneManager
-# Place this in your scenes to ensure Global exists
+# Manual singleton helper to ensure proper game cleanup
+# Place in res://Scripts/Utils/cleanup_manager.gd
+
+var active_dialogs = []
 
 func _ready():
-	print("ManualSingleton: Checking for Global singleton")
+	print("CleanupManager: Initializing...")
 	
-	# Check if Global singleton already exists
-	if not get_node_or_null("/root/Global"):
-		print("Creating Global singleton")
-		# Create a new Global node
-		var global = Node.new()
-		global.name = "Global"
-		global.set_script(load("res://global.gd"))
-		# Add it to the root and make it persistent
-		get_tree().root.add_child(global)
-		get_tree().root.move_child(global, 0)  # Move to first position
-	else:
-		print("Global singleton already exists")
+	# Connect to the tree exiting signal
+	get_tree().root.connect("tree_exiting", _on_tree_exiting)
 	
-	# Also check for SceneManager
-	if not get_node_or_null("/root/SceneManager"):
-		push_warning("WARNING: SceneManager singleton not found! Scene transitions may not work properly.")
-		push_warning("Make sure SceneManager is properly set up in your Project Settings > AutoLoad.")
+	print("CleanupManager: Initialized and connected to tree_exiting signal")
 
-# Helper function to get Global from anywhere
-static func get_global():
-	# Try to get the node directly first
-	var root = Engine.get_main_loop().root
-	if root.has_node("Global"):
-		return root.get_node("Global")
+# Register a dialog with the cleanup manager
+func register_dialog(dialog):
+	if dialog and not active_dialogs.has(dialog):
+		active_dialogs.append(dialog)
+		print("CleanupManager: Registered dialog: ", dialog.name)
+		
+		# Connect to dialog's tree_exiting signal to auto-remove it
+		if not dialog.is_connected("tree_exiting", Callable(self, "_on_dialog_exiting")):
+			dialog.connect("tree_exiting", _on_dialog_exiting.bind(dialog))
+
+# Remove a dialog from the tracking list
+func unregister_dialog(dialog):
+	if dialog and active_dialogs.has(dialog):
+		active_dialogs.erase(dialog)
+		print("CleanupManager: Unregistered dialog: ", dialog.name)
+
+# Called when a specific dialog is exiting the tree
+func _on_dialog_exiting(dialog):
+	unregister_dialog(dialog)
+
+# Force cleanup all active dialogs
+func cleanup_all_dialogs():
+	print("CleanupManager: Cleaning up all active dialogs...")
 	
-	return null
+	# Create a copy of the array to safely iterate while potentially modifying
+	var dialogs_to_cleanup = active_dialogs.duplicate()
+	
+	for dialog in dialogs_to_cleanup:
+		if dialog and is_instance_valid(dialog):
+			print("CleanupManager: Cleaning up dialog: ", dialog.name)
+			# If dialog has a queue_free method, call it
+			if dialog.has_method("queue_free"):
+				dialog.queue_free()
+	
+	# Clear the array
+	active_dialogs.clear()
+	print("CleanupManager: All dialogs cleaned up")
+
+# Called when the application is about to exit
+func _on_tree_exiting():
+	print("CleanupManager: Application exiting - performing final cleanup")
+	cleanup_all_dialogs()

@@ -2,9 +2,18 @@ extends Control
 
 var confirm_dialog_scene = preload("res://Scripts/SaveManager/confirm_dialog.tscn")
 var confirm_dialog = null
+var cleanup_manager = null
 
 func _ready():
 	print("Title Screen: Initializing...")
+	
+	# Initialize cleanup manager first
+	cleanup_manager = get_node_or_null("/root/CleanupManager")
+	if not cleanup_manager:
+		cleanup_manager = Node.new()
+		cleanup_manager.name = "CleanupManager"
+		cleanup_manager.set_script(load("res://Scripts/Utils/cleanup_manager.gd"))
+		get_tree().root.add_child.call_deferred(cleanup_manager)
 	
 	# Connect button signals to functions
 	$MainButtonContainer/NewGameButton.connect("pressed", _on_new_game_button_pressed)
@@ -163,6 +172,10 @@ func _on_discord_button_pressed():
 func _on_quit_game_button_pressed():
 	print("Quit Game button pressed")
 
+	# Get the cleanup manager and clean up all dialogs
+	if cleanup_manager:
+		cleanup_manager.cleanup_all_dialogs()
+
 	# Check if save exists and should be updated
 	var global = get_node_or_null("/root/Global")
 	var save_manager = get_node_or_null("/root/SaveManager")
@@ -180,3 +193,4 @@ func _on_quit_game_button_pressed():
 	# Quit the game
 	print("Exiting application")
 	get_tree().quit()
+	
