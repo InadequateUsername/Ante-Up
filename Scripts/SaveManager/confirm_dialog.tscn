@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://doekj7i2k35ox"]
+
+[ext_resource type="Script" uid="uid://cq3l4qej1w0i3" path="res://Scripts/SaveManager/confirm_dialog.gd" id="1_75xiq"]
+
+[node name="ConfirmationDialog" type="ConfirmationDialog"]
+initial_position = 1
+always_on_top = true
+ok_button_text = "Yes"
+dialog_text = "Are you sure?"
+cancel_button_text = "No"
+script = ExtResource("1_75xiq")

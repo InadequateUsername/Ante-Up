@@ -410,14 +410,16 @@ func end_game(result):
 	# Emit game ended signal
 	emit_signal("game_ended", result, winnings)
 	
-	# Save to Global
+	# Save to Global and update statistics
 	var global = get_node_or_null("/root/Global")
 	if global:
 		global.player_chips = player_chips
 		print("Saved chips to Global: ", player_chips)
+		
+		# Update game statistics
+		global.update_blackjack_stats(result, winnings)
 
 # UPDATED back button function to use SceneManager
-# UPDATED back button function to use SceneManager with await
 func _on_back_button_pressed():
 	print("Back button pressed - using SceneManager to return to casino floor")
 	
@@ -433,6 +435,11 @@ func _on_back_button_pressed():
 		global.set_script(load("res://global.gd"))
 		global.player_chips = player_chips
 		get_tree().root.add_child(global)
+	
+	# Trigger auto-save before leaving
+	var save_manager = get_node_or_null("/root/SaveManager")
+	if save_manager:
+		save_manager.save_game()
 	
 	# Use SceneManager to return to the casino floor - WITH AWAIT
 	print("Calling SceneManager.back_to_casino_floor() with await")

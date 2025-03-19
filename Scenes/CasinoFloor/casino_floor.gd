@@ -106,5 +106,14 @@ func _on_back_button_pressed():
 		global_node.player_chips = player_chips
 		print("Saving chips before returning to title: ", player_chips)
 	
-	# Use SceneManager to change to title screen
+	# Trigger autosave
+	var save_manager = get_node_or_null("/root/SaveManager")
+	if save_manager:
+		print("Autosaving game before returning to title screen")
+		save_manager.save_game()
+	
+	# Use SceneManager to change to title screen WITH AWAIT
+	var success = await SceneManager.change_scene("title_screen")
+	if !success:
+		print("ERROR: Failed to transition to title screen")
 	SceneManager.change_scene("title_screen")

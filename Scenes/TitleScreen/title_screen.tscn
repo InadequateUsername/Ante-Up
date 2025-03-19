@@ -128,3 +128,13 @@ text = "Version 0.0.1"
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="AudioParent"]
 
 [node name="UISoundEffects" type="AudioStreamPlayer" parent="AudioParent"]
+
+[node name="SaveInfoLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 780.0
+offset_right = 279.0
+offset_bottom = 803.0
+text = "Last Save: [date]\\nChips: [amount]"
+horizontal_alignment = 1
+vertical_alignment = 1
