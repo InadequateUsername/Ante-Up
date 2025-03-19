@@ -9,7 +9,7 @@ func _ready():
 	# Get chips from Global singleton
 	var global_node = get_node_or_null("/root/Global")
 	if global_node:
-		player_chips = global_node.player_chips
+		player_chips = int(global_node.player_chips)
 		print("Found Global, player chips: ", player_chips)
 	else:
 		print("WARNING: Global singleton not found! Creating it...")
@@ -17,7 +17,7 @@ func _ready():
 		global_node = Node.new()
 		global_node.name = "Global"
 		global_node.set_script(load("res://global.gd"))
-		global_node.player_chips = player_chips
+		global_node.player_chips = int(player_chips)
 		get_tree().root.add_child(global_node)
 		print("Created Global singleton with chips: ", player_chips)
 	
@@ -35,8 +35,8 @@ func _ready():
 
 # Function to update the chips display
 func update_chips_display():
-	$Chips/ChipsHBoxContainer/ChipsAmount.text = str(player_chips)
-	print("Updated chips display: ", player_chips)
+	$Chips/ChipsHBoxContainer/ChipsAmount.text = str(int(player_chips))
+	print("Updated chips display: ", int(player_chips))
 
 # Function to go to the Blackjack game
 func _on_blackjack_button_pressed():

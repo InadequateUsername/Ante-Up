@@ -44,13 +44,14 @@ func _on_scene_changed(new_scene):
 # Function to modify player chips
 func add_chips(amount):
 	player_chips += amount
-	print("Added " + str(amount) + " chips, new total: " + str(player_chips))
+	player_chips = int(player_chips)  # Ensure it's an integer
+	print("Added " + str(int(amount)) + " chips, new total: " + str(int(player_chips)))
 	return player_chips
 
 # Function to set player chips to a specific value
 func set_chips(amount):
-	player_chips = amount
-	print("Set chips to " + str(player_chips))
+	player_chips = int(amount)  # Convert to integer
+	print("Set chips to " + str(int(player_chips)))
 	return player_chips
 
 # Update blackjack game statistics
@@ -68,7 +69,8 @@ func update_blackjack_stats(result, winnings):
 		"lose", "bust", "dealer_blackjack":
 			blackjack_stats["losses"] += 1
 	
-	# Track biggest win
+	# Track biggest win (convert to integer)
+	winnings = int(winnings)
 	if winnings > blackjack_stats["biggest_win"]:
 		blackjack_stats["biggest_win"] = winnings
 	

@@ -3,6 +3,9 @@ extends Control
 var confirm_dialog_scene = preload("res://Scripts/SaveManager/confirm_dialog.tscn")
 var confirm_dialog = null
 
+# Update the title_screen.gd file to display integers
+
+# Modify the _ready function to ensure chip values are displayed as integers
 func _ready():
 	print("Title Screen: Initializing...")
 	
@@ -27,7 +30,8 @@ func _ready():
 			var save_info = save_manager.get_save_info()
 			if save_info:
 				var date_str = save_manager.format_timestamp(save_info["timestamp"])
-				var chips_str = str(save_info["player_chips"])
+				# Convert chips to integer before displaying
+				var chips_str = str(int(save_info["player_chips"]))
 				$SaveInfoLabel.text = "Last save: " + date_str + "\nChips: " + chips_str
 				$SaveInfoLabel.visible = true
 	

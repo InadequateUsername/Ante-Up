@@ -61,18 +61,18 @@ grow_vertical = 2
 
 [node name="BlackjackButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Blackjack"
+theme_override_font_sizes/font_size = 50
+text = "🃏 Blackjack"
 
 [node name="PokerButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Poker"
+theme_override_font_sizes/font_size = 50
+text = "🃏 Poker"
 
 [node name="SlotsButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Slots"
+theme_override_font_sizes/font_size = 50
+text = "🎰 Slots"
 
 [node name="HSeparator" type="HSeparator" parent="GameButtonsContainer"]
 layout_mode = 2
@@ -90,7 +90,7 @@ anchor_bottom = 1.0
 offset_top = -63.0
 offset_right = 100.0
 grow_vertical = 0
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 50
 text = "Back"
 
 [node name="AudioParent" type="Node" parent="."]

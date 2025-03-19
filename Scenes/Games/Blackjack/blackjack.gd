@@ -102,10 +102,10 @@ func connect_game_buttons():
 # Update UI to display current chips
 func update_chips_display():
 	if chips_label and is_instance_valid(chips_label):
-		chips_label.text = str(player_chips)
+		chips_label.text = str(int(player_chips))  # Convert to integer
 	if bet_label and is_instance_valid(bet_label):
-		bet_label.text = str(current_bet)
-	print("Chips display updated: " + str(player_chips) + " chips, " + str(current_bet) + " bet")
+		bet_label.text = str(int(current_bet))  # Convert to integer
+	print("Chips display updated: " + str(int(player_chips)) + " chips, " + str(int(current_bet)) + " bet")
 
 # Initialize or reset the game
 func initialize_game():
@@ -222,19 +222,23 @@ func update_score_display():
 	if !dealer_score_label or !is_instance_valid(dealer_score_label):
 		return
 		
-	var dealer_value = 0
+	# Calculate dealer score based on face-up cards only
 	var visible_dealer_cards = []
+	var all_face_up = true
 	
 	for card in dealer_hand:
 		if card.face_up:
 			visible_dealer_cards.append(card)
+		else:
+			all_face_up = false
 	
-	dealer_value = calculate_hand_value(visible_dealer_cards)
+	var visible_dealer_value = calculate_hand_value(visible_dealer_cards)
 	
-	if dealer_hand.size() > 0 and !dealer_hand[0].face_up:
+	# If not all cards are face up, show "?" for dealer score
+	if !all_face_up:
 		dealer_score_label.text = "Dealer: ?"
 	else:
-		dealer_score_label.text = "Dealer: " + str(dealer_value)
+		dealer_score_label.text = "Dealer: " + str(visible_dealer_value)
 
 # Change bet amount
 func _on_bet_increase_pressed():
@@ -262,35 +266,49 @@ func _on_bet_decrease_pressed():
 # Start a new round
 func _on_deal_button_pressed():
 	if current_bet > 0:
+		print("=== STARTING NEW BLACKJACK HAND ===")
 		game_in_progress = true
-		
+
 		# Clear any previous cards
 		clear_cards()
-		
-		# Deal initial cards
-		add_card_to_hand(player_hand, player_cards_container)
-		add_card_to_hand(dealer_hand, dealer_cards_container, false)  # Dealer's first card is face down
-		add_card_to_hand(player_hand, player_cards_container)
-		add_card_to_hand(dealer_hand, dealer_cards_container)
-		
+
+		print("Dealing initial cards...")
+
+		# Deal player's first card (face up)
+		var p1 = add_card_to_hand(player_hand, player_cards_container, true)
+		print("Player card 1: " + p1.get_card_name() + ", face_up = " + str(p1.face_up))
+
+		# Deal dealer's first card (face DOWN - this is the change)
+		var d1 = add_card_to_hand(dealer_hand, dealer_cards_container, false)
+		print("Dealer card 1: " + d1.get_card_name() + ", face_up = " + str(d1.face_up))
+
+		# Deal player's second card (face up)
+		var p2 = add_card_to_hand(player_hand, player_cards_container, true)
+		print("Player card 2: " + p2.get_card_name() + ", face_up = " + str(p2.face_up))
+
+		# Deal dealer's second card (face up)
+		var d2 = add_card_to_hand(dealer_hand, dealer_cards_container, true)
+		print("Dealer card 2: " + d2.get_card_name() + ", face_up = " + str(d2.face_up))
+
 		update_score_display()
+		print("Score display updated")
 		
-		# Disable betting buttons during game
-		if has_node("UI/ButtonsContainer/BetIncreaseButton"):
-			get_node("UI/ButtonsContainer/BetIncreaseButton").disabled = true
-		if has_node("UI/ButtonsContainer/BetDecreaseButton"):
-			get_node("UI/ButtonsContainer/BetDecreaseButton").disabled = true
-		if has_node("UI/ButtonsContainer/DealButton"):
-			get_node("UI/ButtonsContainer/DealButton").disabled = true
-		
-		# Enable game action buttons
-		if has_node("UI/ButtonsContainer/HitButton"):
-			get_node("UI/ButtonsContainer/HitButton").disabled = false
-		if has_node("UI/ButtonsContainer/StandButton"):
-			get_node("UI/ButtonsContainer/StandButton").disabled = false
-		
-		if result_label and is_instance_valid(result_label):
-			result_label.text = "Your move - Hit or Stand?"
+	# Disable betting buttons during game
+	if has_node("UI/ButtonsContainer/BetIncreaseButton"):
+		get_node("UI/ButtonsContainer/BetIncreaseButton").disabled = true
+	if has_node("UI/ButtonsContainer/BetDecreaseButton"):
+		get_node("UI/ButtonsContainer/BetDecreaseButton").disabled = true
+	if has_node("UI/ButtonsContainer/DealButton"):
+		get_node("UI/ButtonsContainer/DealButton").disabled = true
+
+	# Enable game action buttons
+	if has_node("UI/ButtonsContainer/HitButton"):
+		get_node("UI/ButtonsContainer/HitButton").disabled = false
+	if has_node("UI/ButtonsContainer/StandButton"):
+		get_node("UI/ButtonsContainer/StandButton").disabled = false
+
+	if result_label and is_instance_valid(result_label):
+		result_label.text = "Your move - Hit or Stand?"
 		
 		# Check for blackjack
 		check_for_blackjack()
@@ -311,17 +329,25 @@ func _on_stand_button_pressed():
 
 # Dealer AI
 func dealer_turn():
-	# Flip dealer's first card
-	dealer_hand[0].flip()
+	print("Dealer's turn - revealing all dealer cards")
+	
+	# First reveal all dealer cards
+	reveal_dealer_cards()
+	
+	# Update the display with the dealer's true score
 	update_score_display()
 	
 	# Dealer draws until reaching at least 17
 	var dealer_value = calculate_hand_value(dealer_hand)
+	print("Dealer's initial value: " + str(dealer_value))
+	
 	while dealer_value < 17:
-		add_card_to_hand(dealer_hand, dealer_cards_container)
+		print("Dealer draws a card (value below 17)")
+		add_card_to_hand(dealer_hand, dealer_cards_container, true)
 		dealer_value = calculate_hand_value(dealer_hand)
+		print("Dealer's new value: " + str(dealer_value))
 		
-		# Add a slight delay for visual effect (in a real game)
+		# Add a slight delay for visual effect
 		await get_tree().create_timer(0.5).timeout
 	
 	# Determine the winner
@@ -332,9 +358,8 @@ func check_for_blackjack():
 	var player_value = calculate_hand_value(player_hand)
 	
 	if player_value == 21:
-		# Flip dealer's first card
-		dealer_hand[0].flip()
-		update_score_display()
+		# Flip all dealer cards when checking for blackjack
+		reveal_dealer_cards()
 		
 		var dealer_value = calculate_hand_value(dealer_hand)
 		
@@ -363,19 +388,21 @@ func determine_winner():
 func end_game(result):
 	game_in_progress = false
 	
+	reveal_dealer_cards()
+	
 	var winnings = 0
 	var message = ""
 	
 	match result:
 		"blackjack":
-			winnings = current_bet * 2.5
-			message = "Blackjack! You win " + str(winnings) + " chips."
+			winnings = int(current_bet * 2.5)  # Convert to integer
+			message = "Blackjack! You win %d chips." % winnings
 		"win":
 			winnings = current_bet * 2
-			message = "You win " + str(winnings) + " chips."
+			message = "You win %d chips." % winnings
 		"dealer_bust":
 			winnings = current_bet * 2
-			message = "Dealer busts! You win " + str(winnings) + " chips."
+			message = "Dealer busts! You win %d chips." % winnings
 		"push":
 			winnings = current_bet
 			message = "Push. Your bet is returned."
@@ -452,3 +479,12 @@ func _on_back_button_pressed():
 			result_label.text = "Error returning to casino. Please restart."
 	else:
 		print("Successfully transitioning to casino floor")
+	
+func reveal_dealer_cards():
+	print("Revealing all dealer cards")
+	# Make sure all dealer cards are face up
+	for card in dealer_hand:
+		if not card.face_up:
+			card.flip()
+	# Update score display with all cards now visible
+	update_score_display()
