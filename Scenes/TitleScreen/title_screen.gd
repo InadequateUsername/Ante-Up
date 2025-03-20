@@ -28,8 +28,8 @@ func _ready():
 	confirm_dialog.confirmed.connect(_on_new_game_confirmed)
 	
 	# Make sure SaveInfoLabel is hidden by default
-	if has_node("MainButtonContainer/SaveInfoLabel"):
-		$MainButtonContainer/SaveInfoLabel.visible = false
+	if has_node("MainButtonContainer/SaveInfoContainer/SaveInfoLabel"):
+		$MainButtonContainer/SaveInfoContainer/SaveInfoLabel.visible = false
 	
 	# Check if save exists and update Load Game button accordingly
 	var save_manager = get_node_or_null("/root/SaveManager")
@@ -51,8 +51,8 @@ func _ready():
 				var info_text = "Last save: " + date_str + "\nChips: " + chips_str
 				
 				# Find and update the SaveInfoLabel
-				if has_node("MainButtonContainer/SaveInfoLabel"):
-					var save_label = $MainButtonContainer/SaveInfoLabel
+				if has_node("MainButtonContainer/SaveInfoContainer/SaveInfoLabel"):
+					var save_label = $MainButtonContainer/SaveInfoContainer/SaveInfoLabel
 					save_label.text = info_text
 					save_label.visible = true
 					print("Updated SaveInfoLabel: " + info_text)

@@ -62,7 +62,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 20
 
 [node name="Chips" type="PanelContainer" parent="GameButtonsContainer"]
 layout_mode = 2
@@ -85,7 +85,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "100"
 
-[node name="HSeparator2" type="HSeparator" parent="GameButtonsContainer"]
+[node name="HSeparator" type="HSeparator" parent="GameButtonsContainer"]
 layout_mode = 2
 
 [node name="BlackjackButton" type="Button" parent="GameButtonsContainer"]
@@ -106,7 +106,7 @@ theme = ExtResource("2_a8ndx")
 theme_override_font_sizes/font_size = 50
 text = "🎰 Slots 🎰"
 
-[node name="HSeparator" type="HSeparator" parent="GameButtonsContainer"]
+[node name="HSeparator2" type="HSeparator" parent="GameButtonsContainer"]
 layout_mode = 2
 
 [node name="CashierBoothButton" type="Button" parent="GameButtonsContainer"]
@@ -123,7 +123,7 @@ anchor_right = 1.0
 offset_left = -123.0
 offset_bottom = 57.0
 grow_horizontal = 0
-theme_override_constants/separation = 15
+theme_override_constants/separation = 35
 
 [node name="BackButton" type="Button" parent="ReturnButtonsContainer"]
 layout_mode = 2
