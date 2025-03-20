@@ -1,5 +1,4 @@
 extends Node
-
 # Global variables
 var player_chips = 1000  # Default starting chips
 var save_data = null  # Will hold the full save data when loaded
@@ -13,6 +12,15 @@ var blackjack_stats = {
 	"pushes": 0,
 	"blackjacks": 0,
 	"biggest_win": 0
+}
+
+# Statistics for slots game
+var slots_stats = {
+	"games_played": 0,
+	"total_winnings": 0,
+	"biggest_win": 0,
+	"total_free_spins_won": 0,
+	"wild_combinations": 0
 }
 
 # Debug information printing
@@ -37,7 +45,8 @@ func _on_scene_changed(new_scene):
 			# Add stats to the save
 			var additional_data = {
 				"games_played": games_played,
-				"blackjack_stats": blackjack_stats
+				"blackjack_stats": blackjack_stats,
+				"slots_stats": slots_stats
 			}
 			save_manager.save_game(additional_data)
 
@@ -78,3 +87,32 @@ func update_blackjack_stats(result, winnings):
 	games_played += 1
 	
 	print("Updated blackjack stats: ", blackjack_stats)
+
+# Update slots game statistics
+func update_slots_stats(_result, winnings, free_spins=0, wilds_used=0):
+	# Initialize slots_stats if it doesn't exist yet
+	if !slots_stats:
+		slots_stats = {
+			"games_played": 0,
+			"total_winnings": 0,
+			"biggest_win": 0,
+			"total_free_spins_won": 0,
+			"wild_combinations": 0
+		}
+	
+	slots_stats["games_played"] += 1
+	slots_stats["total_winnings"] += winnings
+	
+	if winnings > slots_stats["biggest_win"]:
+		slots_stats["biggest_win"] = winnings
+	
+	if free_spins > 0:
+		slots_stats["total_free_spins_won"] += free_spins
+	
+	if wilds_used > 0:
+		slots_stats["wild_combinations"] += wilds_used
+	
+	# Update total games played
+	games_played += 1
+	
+	print("Updated slots stats: ", slots_stats)

@@ -75,15 +75,15 @@ func _on_poker_button_pressed():
 
 # Function to go to the Slots game
 func _on_slots_button_pressed():
-	print("Slots button pressed")
-	
+	print("Slots button pressed - saving chips: ", player_chips)
+
 	# Save chips to Global
 	var global_node = get_node_or_null("/root/Global")
 	if global_node:
 		global_node.player_chips = player_chips
-	
-	# Use SceneManager to change to slots (when implemented)
-	# SceneManager.change_scene("slots")
+
+	# Use SceneManager to change to slots
+	SceneManager.change_scene("slots")  # This should match your scene's name
 
 # Function to go to the Cashier Booth
 func _on_cashier_booth_button_pressed():

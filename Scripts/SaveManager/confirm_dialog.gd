@@ -30,3 +30,25 @@ func _on_confirmed():
 
 func _on_cancelled():
 	emit_signal("dialog_cancelled")
+
+# Function to go to the Slots game
+func _on_slots_button_pressed():
+	print("Slots button pressed - saving chips: ", Global.player_chips)
+	
+	# Save chips to Global
+	var global_node = get_node_or_null("/root/Global")
+	if global_node:
+		global_node.player_chips = Global.player_chips
+		print("Saved chips to Global: ", Global.player_chips)
+	else:
+		print("WARNING: Global not found when trying to save chips!")
+		# Create global as failsafe
+		global_node = Node.new()
+		global_node.name = "Global"
+		global_node.set_script(load("res://global.gd"))
+		global_node.player_chips = Global.player_chips
+		get_tree().root.add_child(global_node)
+		print("Created Global singleton with chips: ", Global.player_chips)
+	
+	# Use SceneManager to change to slots
+	SceneManager.change_scene("slots")
