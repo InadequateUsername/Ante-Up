@@ -10,6 +10,14 @@ var max_bet = 100
 var free_spins = 0
 var current_mode = "normal"  # "normal" or "free_spins"
 
+# Auto-spin variables
+var is_auto_spinning = false
+var auto_spin_count = 0
+var auto_spin_max = 10  # Default number of auto spins
+var auto_spin_options = [5, 10, 25, 50, 100]  # Available options for auto-spin
+var auto_spin_index = 1  # Default to 10 spins (index 1)
+var stop_on_feature = true  # Stop auto-spin when free spins are triggered
+
 # Reel variables
 var reels = []
 var reel_count = 3
@@ -73,7 +81,8 @@ var slots_stats = {
 	"total_winnings": 0,
 	"biggest_win": 0,
 	"total_free_spins_won": 0,
-	"wild_combinations": 0
+	"wild_combinations": 0,
+	"auto_spins_used": 0  # New stat for tracking auto-spin usage
 }
 
 # Current state of the reels
@@ -92,6 +101,9 @@ func _ready():
 		if global_node.get("slots_stats") != null:
 			slots_stats = global_node.slots_stats
 			print("Loaded slots stats from Global")
+			if not "auto_spins_used" in slots_stats:
+				slots_stats["auto_spins_used"] = 0
+				print("Added missing auto_spins_used key to stats")
 	else:
 		print("WARNING: Global singleton not found! Using default chips value.")
 	
@@ -104,7 +116,19 @@ func _ready():
 	$MainContainer/ControlsContainer/SpinButton.connect("pressed", _on_spin_pressed)
 	$MainContainer/ControlsContainer/MaxBetButton.connect("pressed", _on_max_bet_pressed)
 	$MainContainer/HeaderContainer/BackButton.connect("pressed", _on_back_pressed)
-	$MainContainer/HeaderContainer/ExitGameButton.connect("pressed", _on_exit_game_pressed) # Add this line
+	$MainContainer/HeaderContainer/ExitGameButton.connect("pressed", _on_exit_game_pressed)
+	
+	# Connect auto-spin buttons
+	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.connect("pressed", _on_auto_spin_pressed)
+	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinUpButton.connect("pressed", _on_auto_spin_up_pressed)
+	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinDownButton.connect("pressed", _on_auto_spin_down_pressed)
+	$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.connect("pressed", _on_stop_auto_spin_pressed)
+	
+	# Set initial auto-spin values
+	update_auto_spin_display()
+	
+	# Hide stop button initially
+	$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
 	
 	# Update UI
 	update_bet_display()
@@ -214,6 +238,11 @@ func update_free_spins_display():
 	else:
 		$MainContainer/ControlsContainer/SpinButton.text = "SPIN"
 
+# Update the auto-spin display
+func update_auto_spin_display():
+	auto_spin_max = auto_spin_options[auto_spin_index]
+	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinCountLabel.text = str(auto_spin_max)
+
 # Update the winnings display
 func update_winnings_display(text):
 	$MainContainer/WinningsContainer/WinningsLabel.text = text
@@ -240,6 +269,70 @@ func _on_spin_pressed():
 	if is_spinning:
 		return
 	
+	# Perform a single spin and don't continue auto-spinning
+	is_auto_spinning = false
+	perform_spin()
+
+# Handle auto-spin button press
+func _on_auto_spin_pressed():
+	if is_spinning or is_auto_spinning:
+		return
+	
+	# If we're in free spins mode, don't allow auto-spin
+	if current_mode == "free_spins":
+		update_winnings_display("Cannot auto-spin during free spins mode.")
+		return
+	
+	# If we don't have enough chips for at least one spin, exit
+	if player_chips < current_bet:
+		update_winnings_display("Not enough chips!")
+		return
+	
+	# Start auto-spinning
+	is_auto_spinning = true
+	auto_spin_count = auto_spin_max
+	
+	# Show stop button and hide auto-spin button
+	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.visible = false
+	$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = true
+	
+	# Update display
+	update_winnings_display("Auto-spinning " + str(auto_spin_count) + " times...")
+	
+	# Perform the first spin
+	perform_spin()
+	
+	# Update statistics (with safety check)
+	if not "auto_spins_used" in slots_stats:
+		slots_stats["auto_spins_used"] = 0
+	slots_stats["auto_spins_used"] += 1
+
+# Increase auto-spin count
+func _on_auto_spin_up_pressed():
+	auto_spin_index = min(auto_spin_index + 1, auto_spin_options.size() - 1)
+	update_auto_spin_display()
+
+# Decrease auto-spin count
+func _on_auto_spin_down_pressed():
+	auto_spin_index = max(auto_spin_index - 1, 0)
+	update_auto_spin_display()
+
+# Stop auto-spinning
+func _on_stop_auto_spin_pressed():
+	is_auto_spinning = false
+	auto_spin_count = 0
+	
+	# Show auto-spin button and hide stop button
+	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.visible = true
+	$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
+	
+	update_winnings_display("Auto-spin stopped.")
+
+# Perform a single spin
+func perform_spin():
+	if is_spinning:
+		return
+	
 	# Check for free spins or normal mode
 	if free_spins > 0:
 		current_mode = "free_spins"
@@ -251,16 +344,27 @@ func _on_spin_pressed():
 		current_mode = "normal"
 		if player_chips < current_bet:
 			update_winnings_display("Not enough chips!")
+			
+			# Stop auto-spinning if we're out of chips
+			if is_auto_spinning:
+				_on_stop_auto_spin_pressed()
 			return
 		
 		# Deduct bet from chips in normal mode
 		player_chips -= current_bet
 		update_chips_display()
-		update_winnings_display("Spinning...")
+		
+		if is_auto_spinning:
+			auto_spin_count -= 1
+			update_winnings_display("Auto-spin " + str(auto_spin_max - auto_spin_count) + 
+				" of " + str(auto_spin_max) + "...")
+		else:
+			update_winnings_display("Spinning...")
 	
 	# Disable buttons during spin
 	is_spinning = true
 	$MainContainer/ControlsContainer/SpinButton.disabled = true
+	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.disabled = true
 	
 	# Play spin sound
 	$AudioContainer/SpinSound.play()
@@ -329,11 +433,31 @@ func animate_reel(reel_index, new_symbols):
 		calculate_win()
 		is_spinning = false
 		$MainContainer/ControlsContainer/SpinButton.disabled = false
+		$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.disabled = false
+		
+		# Check if we should continue auto-spinning
+		if is_auto_spinning and auto_spin_count > 0 and current_mode != "free_spins":
+			# Wait a brief moment before next spin
+			await get_tree().create_timer(1.0).timeout
+			
+			if is_auto_spinning:  # Check again in case user stopped during delay
+				perform_spin()
+		elif is_auto_spinning and (auto_spin_count <= 0 or current_mode == "free_spins"):
+			# Auto-spinning complete or free spins triggered
+			$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.visible = true
+			$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
+			is_auto_spinning = false
+			
+			if current_mode == "free_spins" and stop_on_feature:
+				update_winnings_display("Auto-spin stopped: Free spins triggered!")
+			else:
+				update_winnings_display("Auto-spin complete!")
 
 # Calculate winning combinations
 func calculate_win():
 	var winnings = 0
 	var win_description = ""
+	var free_spins_triggered = false
 	var has_wild = false
 	
 	# Extract middle row (visible symbols)
@@ -349,6 +473,7 @@ func calculate_win():
 		update_free_spins_display()
 		win_description += "3 Saurpod Skeletons: 5 FREE SPINS!\n"
 		slots_stats["total_free_spins_won"] += 5
+		free_spins_triggered = true
 	
 	# Calculate payouts for each symbol type
 	for symbol in symbols:
@@ -423,6 +548,11 @@ func calculate_win():
 		else:
 			update_winnings_display("No win. Try again!")
 	
+	# If free spins were triggered during auto-spin and stop_on_feature is enabled, stop auto-spinning
+	if free_spins_triggered and is_auto_spinning and stop_on_feature:
+		is_auto_spinning = false
+		auto_spin_count = 0
+	
 	# Save to Global
 	save_to_global()
 
@@ -441,6 +571,9 @@ func save_to_global():
 # Return to casino floor
 func _on_back_pressed():
 	print("Back button pressed - returning to casino floor")
+	
+	# Make sure auto-spinning is stopped
+	is_auto_spinning = false
 	
 	# Save chips to Global
 	save_to_global()
@@ -461,6 +594,9 @@ func _on_back_pressed():
 # Handle exit button press
 func _on_exit_game_pressed():
 	print("Exit button pressed on slots screen")
+	
+	# Make sure auto-spinning is stopped
+	is_auto_spinning = false
 	
 	# Save chips to Global
 	save_to_global()

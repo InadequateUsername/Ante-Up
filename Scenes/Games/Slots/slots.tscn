@@ -201,7 +201,7 @@ layout_mode = 2
 theme_override_constants/separation = 50
 
 [node name="BetDownButton" type="Button" parent="MainContainer/ControlsContainer/BetControls"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "-"
@@ -212,7 +212,7 @@ theme_override_font_sizes/font_size = 100
 text = "100"
 
 [node name="BetUpButton" type="Button" parent="MainContainer/ControlsContainer/BetControls"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 100
 text = "+"
@@ -229,6 +229,39 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Spin"
+
+[node name="AutoSpinControls" type="HBoxContainer" parent="MainContainer/ControlsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="AutoSpinButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Auto Spin"
+
+[node name="AutoSpinDownButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "-"
+
+[node name="AutoSpinCountLabel" type="Label" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "0"
+
+[node name="AutoSpinUpButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "+"
+
+[node name="StopAutoSpinButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Stop
+Auto Spin"
 
 [node name="WinningsContainer" type="PanelContainer" parent="MainContainer"]
 custom_minimum_size = Vector2(0, 323)
