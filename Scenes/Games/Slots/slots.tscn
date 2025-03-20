@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://unpu8axymkp"]
+[gd_scene load_steps=6 format=3 uid="uid://unpu8axymkp"]
 
 [ext_resource type="Script" uid="uid://b5aj83u14guk7" path="res://Scenes/Games/Slots/slots.gd" id="1_rkj4q"]
 [ext_resource type="Texture2D" uid="uid://bvxsulg40r26k" path="res://Assets/Slots/axolotl.png" id="2_h4kg4"]
+[ext_resource type="Theme" uid="uid://phgp7ky6igg7" path="res://Themes/buttons.tres" id="2_u1577"]
 [ext_resource type="Texture2D" uid="uid://beugf754n7d6y" path="res://Assets/Slots/bear.png" id="3_dd6pm"]
 [ext_resource type="Texture2D" uid="uid://r5a5rhtvx702" path="res://Assets/Slots/bull.png" id="4_u1577"]
 
@@ -52,11 +53,13 @@ alignment = 2
 
 [node name="BackButton" type="Button" parent="MainContainer/HeaderContainer"]
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 30
 text = "Back"
 
 [node name="ExitGameButton" type="Button" parent="MainContainer/HeaderContainer"]
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 30
 text = "X"
 
@@ -203,6 +206,7 @@ theme_override_constants/separation = 50
 [node name="BetDownButton" type="Button" parent="MainContainer/ControlsContainer/BetControls"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "-"
 
@@ -214,12 +218,14 @@ text = "100"
 [node name="BetUpButton" type="Button" parent="MainContainer/ControlsContainer/BetControls"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "+"
 
 [node name="MaxBetButton" type="Button" parent="MainContainer/ControlsContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 50
 text = "Max
 Bet"
@@ -227,6 +233,7 @@ Bet"
 [node name="SpinButton" type="Button" parent="MainContainer/ControlsContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 50
 text = "Spin"
 
@@ -237,12 +244,14 @@ theme_override_constants/separation = 30
 [node name="AutoSpinButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 50
 text = "Auto Spin"
 
 [node name="AutoSpinDownButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "-"
 
@@ -254,18 +263,21 @@ text = "0"
 [node name="AutoSpinUpButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "+"
 
 [node name="StopAutoSpinButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
 layout_mode = 2
+theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 50
 text = "Stop
 Auto Spin"
 
 [node name="WinningsContainer" type="PanelContainer" parent="MainContainer"]
-custom_minimum_size = Vector2(0, 323)
+custom_minimum_size = Vector2(750, 315)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="WinningsLabel" type="Label" parent="MainContainer/WinningsContainer"]
