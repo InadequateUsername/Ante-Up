@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://tvgog2nkh260"]
+[gd_scene load_steps=5 format=3 uid="uid://tvgog2nkh260"]
 
 [ext_resource type="Script" uid="uid://cfj3c6lu7cfak" path="res://Scenes/TitleScreen/title_screen.gd" id="1_81d0i"]
 [ext_resource type="Texture2D" uid="uid://b66ro1eqrxcli" path="res://Scenes/TitleScreen/title_screen_bg.jpg" id="2_e2iei"]
+[ext_resource type="Theme" uid="uid://phgp7ky6igg7" path="res://Themes/buttons.tres" id="3_e2iei"]
 [ext_resource type="Texture2D" uid="uid://1phjwbm1siix" path="res://Scenes/TitleScreen/discord.png" id="3_xw5ij"]
 
 [node name="RootUINode" type="Control"]
@@ -35,7 +36,7 @@ offset_top = 238.0
 offset_right = 486.0
 offset_bottom = 580.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.647059, 0, 0, 1)
+theme_override_colors/font_color = Color(0.815686, 0, 0.160784, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 15
 theme_override_constants/shadow_offset_y = 15
@@ -64,21 +65,25 @@ vertical_alignment = 1
 
 [node name="NewGameButton" type="Button" parent="MainButtonContainer"]
 layout_mode = 2
+theme = ExtResource("3_e2iei")
 theme_override_font_sizes/font_size = 50
 text = "New Game"
 
 [node name="LoadGameButton" type="Button" parent="MainButtonContainer"]
 layout_mode = 2
+theme = ExtResource("3_e2iei")
 theme_override_font_sizes/font_size = 50
 text = "Load Game"
 
 [node name="SettingsButton" type="Button" parent="MainButtonContainer"]
 layout_mode = 2
+theme = ExtResource("3_e2iei")
 theme_override_font_sizes/font_size = 50
 text = "Settings"
 
 [node name="QuitGameButton" type="Button" parent="MainButtonContainer"]
 layout_mode = 2
+theme = ExtResource("3_e2iei")
 theme_override_font_sizes/font_size = 50
 text = "Quit Game"
 

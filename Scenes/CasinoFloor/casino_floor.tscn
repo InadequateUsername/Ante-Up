@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cle7850tvwekt"]
+[gd_scene load_steps=4 format=3 uid="uid://cle7850tvwekt"]
 
 [ext_resource type="Script" uid="uid://b0lr1f5c0xvgl" path="res://Scenes/CasinoFloor/casino_floor.gd" id="1_xwx8d"]
 [ext_resource type="Script" uid="uid://d15wg4x3f50db" path="res://Scenes/CasinoFloor/manual_singleton.gd" id="2_0jnkg"]
+[ext_resource type="Theme" uid="uid://phgp7ky6igg7" path="res://Themes/buttons.tres" id="2_a8ndx"]
 
 [node name="CasinoFloor" type="Control"]
 layout_mode = 3
@@ -68,6 +69,7 @@ layout_mode = 2
 
 [node name="ChipsHBoxContainer" type="HBoxContainer" parent="GameButtonsContainer/Chips"]
 layout_mode = 2
+alignment = 1
 
 [node name="ChipsLabel" type="Label" parent="GameButtonsContainer/Chips/ChipsHBoxContainer"]
 layout_mode = 2
@@ -88,16 +90,19 @@ layout_mode = 2
 
 [node name="BlackjackButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_a8ndx")
 theme_override_font_sizes/font_size = 50
 text = "🃏 Blackjack 🃏"
 
 [node name="PokerButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_a8ndx")
 theme_override_font_sizes/font_size = 50
 text = "🃏 Poker 🃏"
 
 [node name="SlotsButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_a8ndx")
 theme_override_font_sizes/font_size = 50
 text = "🎰 Slots 🎰"
 
@@ -106,6 +111,7 @@ layout_mode = 2
 
 [node name="CashierBoothButton" type="Button" parent="GameButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_a8ndx")
 theme_override_font_sizes/font_size = 25
 text = "Cashier Booth"
 
@@ -121,11 +127,13 @@ theme_override_constants/separation = 15
 
 [node name="BackButton" type="Button" parent="ReturnButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_a8ndx")
 theme_override_font_sizes/font_size = 35
 text = "Back"
 
 [node name="ExitButton" type="Button" parent="ReturnButtonsContainer"]
 layout_mode = 2
+theme = ExtResource("2_a8ndx")
 theme_override_font_sizes/font_size = 35
 text = "X"
 

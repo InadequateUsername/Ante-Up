@@ -4,7 +4,7 @@ extends Control
 var player_chips = 1000
 var current_bet = 10
 var min_bet = 10
-var max_bet = 100
+var max_bet = 1000000000
 
 # Game state variables
 var free_spins = 0
@@ -13,8 +13,8 @@ var current_mode = "normal"  # "normal" or "free_spins"
 # Auto-spin variables
 var is_auto_spinning = false
 var auto_spin_count = 0
-var auto_spin_max = 10  # Default number of auto spins
-var auto_spin_options = [5, 10, 25, 50, 100]  # Available options for auto-spin
+var auto_spin_max = 1000  # Default number of auto spins
+var auto_spin_options = [5, 10, 25, 50, 100, 250, 500, 1000]  # Available options for auto-spin
 var auto_spin_index = 1  # Default to 10 spins (index 1)
 var stop_on_feature = true  # Stop auto-spin when free spins are triggered
 
