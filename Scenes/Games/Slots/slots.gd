@@ -224,7 +224,7 @@ func add_indicator_overlay(parent_rect, indicator_type):
 
 # Update the bet display
 func update_bet_display():
-	$ControlsContainer/BetControls/BetAmountLabel.text = str(current_bet)
+	$ControlsContainer/BetControls/BetAmountContainer/BetAmountLabel.text = str(current_bet)
 
 # Update the chips display
 func update_chips_display():
@@ -243,7 +243,7 @@ func update_free_spins_display():
 # Update the auto-spin display
 func update_auto_spin_display():
 	auto_spin_max = auto_spin_options[auto_spin_index]
-	$ControlsContainer/AutoSpinControls/AutoSpinCountLabel.text = str(auto_spin_max)
+	$ControlsContainer/AutoSpinControls/AutoSpinCountContainer/AutoSpinCountLabel.text = str(auto_spin_max)
 
 # Update the winnings display
 func update_winnings_display(text):

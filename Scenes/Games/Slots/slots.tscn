@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://unpu8axymkp"]
+[gd_scene load_steps=20 format=3 uid="uid://unpu8axymkp"]
 
 [ext_resource type="Script" uid="uid://b5aj83u14guk7" path="res://Scenes/Games/Slots/slots.gd" id="1_rkj4q"]
 [ext_resource type="Texture2D" uid="uid://c7m4y108chyj4" path="res://Assets/Slot Machine Assets/topbar.png" id="2_7p25o"]
 [ext_resource type="Texture2D" uid="uid://bvxsulg40r26k" path="res://Assets/Slots/axolotl.png" id="2_h4kg4"]
 [ext_resource type="Texture2D" uid="uid://cbcl4buidm6cm" path="res://Assets/Logos/AnimalSlotMachines.jpg" id="2_htvkm"]
 [ext_resource type="Theme" uid="uid://phgp7ky6igg7" path="res://Themes/buttons.tres" id="2_u1577"]
+[ext_resource type="Texture2D" uid="uid://bnytlp8ymo1sh" path="res://Assets/Slots/slot wallpaper.jpg" id="2_uly1q"]
 [ext_resource type="Texture2D" uid="uid://beugf754n7d6y" path="res://Assets/Slots/bear.png" id="3_dd6pm"]
 [ext_resource type="Texture2D" uid="uid://r5a5rhtvx702" path="res://Assets/Slots/bull.png" id="4_u1577"]
 [ext_resource type="Texture2D" uid="uid://dntv43ra737gq" path="res://Assets/Slots/goat.png" id="7_7p25o"]
@@ -21,6 +22,62 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axtjy"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 0.72549)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_040pe"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 0.72549)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uly1q"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 0.72549)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.000113828, 0.000113828, 0.000113828, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7yu3m"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 0.72549)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gsq47"]
+bg_color = Color(0.65, 0.65, 0.65, 0.72549)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1x636"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 0.72549)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rxe8u"]
+bg_color = Color(0.65098, 0.65098, 0.65098, 0.72549)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
 
 [node name="Slots" type="Control"]
 layout_mode = 3
@@ -40,7 +97,14 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.147672, 0.147672, 0.147672, 1)
 
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_uly1q")
+
 [node name="TopBarPanel" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -54,9 +118,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -315.0
-offset_top = 17.0
+offset_top = 20.0
 offset_right = 315.0
-offset_bottom = 202.0
+offset_bottom = 205.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_d2xaa")
 
@@ -71,9 +135,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -445.0
-offset_top = 220.0
+offset_top = 238.0
 offset_right = 446.0
-offset_bottom = 1469.0
+offset_bottom = 1487.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 alignment = 1
@@ -299,9 +363,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -946.5
-offset_top = -148.0
-offset_right = 946.5
+offset_left = -955.0
+offset_top = -156.0
+offset_right = 955.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
@@ -320,10 +385,17 @@ theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "-"
 
-[node name="BetAmountLabel" type="Label" parent="ControlsContainer/BetControls"]
+[node name="BetAmountContainer" type="PanelContainer" parent="ControlsContainer/BetControls"]
+custom_minimum_size = Vector2(291, 148)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_axtjy")
+
+[node name="BetAmountLabel" type="Label" parent="ControlsContainer/BetControls/BetAmountContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 50
 text = "1000000000"
+horizontal_alignment = 1
 
 [node name="BetUpButton" type="Button" parent="ControlsContainer/BetControls"]
 custom_minimum_size = Vector2(75, 0)
@@ -365,10 +437,17 @@ theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "-"
 
-[node name="AutoSpinCountLabel" type="Label" parent="ControlsContainer/AutoSpinControls"]
+[node name="AutoSpinCountContainer" type="PanelContainer" parent="ControlsContainer/AutoSpinControls"]
+custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_040pe")
+
+[node name="AutoSpinCountLabel" type="Label" parent="ControlsContainer/AutoSpinControls/AutoSpinCountContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 50
 text = "1000"
+horizontal_alignment = 1
 
 [node name="AutoSpinUpButton" type="Button" parent="ControlsContainer/AutoSpinControls"]
 custom_minimum_size = Vector2(75, 0)
@@ -428,9 +507,11 @@ offset_top = 12.0
 offset_right = 615.0
 offset_bottom = 67.0
 size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_uly1q")
 
 [node name="NameLabel" type="Label" parent="NamePanelContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Name"
 horizontal_alignment = 1
@@ -442,6 +523,7 @@ offset_top = 83.0
 offset_right = 615.0
 offset_bottom = 138.0
 size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_7yu3m")
 
 [node name="ChipsDisplay" type="HBoxContainer" parent="ChipsPanelContainer"]
 layout_mode = 2
@@ -455,6 +537,7 @@ expand_mode = 2
 
 [node name="ChipsAmount" type="Label" parent="ChipsPanelContainer/ChipsDisplay"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "1000"
 
@@ -467,6 +550,7 @@ offset_bottom = 209.0
 grow_horizontal = 0
 grow_vertical = 2
 size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_gsq47")
 
 [node name="FreeSpinsContainer" type="HBoxContainer" parent="FreeSpinsPanelContainer"]
 layout_mode = 2
@@ -479,6 +563,7 @@ expand_mode = 2
 
 [node name="FreeSpinsCount" type="Label" parent="FreeSpinsPanelContainer/FreeSpinsContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "0"
 
@@ -491,16 +576,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -375.0
-offset_top = 216.0
+offset_top = 241.0
 offset_right = 375.0
-offset_bottom = 375.0
+offset_bottom = 377.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_1x636")
 
 [node name="WinningsLabel" type="Label" parent="WinningsContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 25
 text = "You won!"
 horizontal_alignment = 1
@@ -523,12 +610,14 @@ offset_top = -163.5
 offset_right = 443.0
 offset_bottom = 163.5
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rxe8u")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/ScrollContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 12
 text = "Penguin:
 1 penguin = 2x your bet
