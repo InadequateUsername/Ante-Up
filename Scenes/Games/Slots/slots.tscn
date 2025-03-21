@@ -1,228 +1,109 @@
-[gd_scene load_steps=6 format=3 uid="uid://unpu8axymkp"]
+[gd_scene load_steps=11 format=3 uid="uid://unpu8axymkp"]
 
 [ext_resource type="Script" uid="uid://b5aj83u14guk7" path="res://Scenes/Games/Slots/slots.gd" id="1_rkj4q"]
+[ext_resource type="Texture2D" uid="uid://c7m4y108chyj4" path="res://Assets/Slot Machine Assets/topbar.png" id="2_7p25o"]
 [ext_resource type="Texture2D" uid="uid://bvxsulg40r26k" path="res://Assets/Slots/axolotl.png" id="2_h4kg4"]
+[ext_resource type="Texture2D" uid="uid://cbcl4buidm6cm" path="res://Assets/Logos/AnimalSlotMachines.jpg" id="2_htvkm"]
 [ext_resource type="Theme" uid="uid://phgp7ky6igg7" path="res://Themes/buttons.tres" id="2_u1577"]
 [ext_resource type="Texture2D" uid="uid://beugf754n7d6y" path="res://Assets/Slots/bear.png" id="3_dd6pm"]
 [ext_resource type="Texture2D" uid="uid://r5a5rhtvx702" path="res://Assets/Slots/bull.png" id="4_u1577"]
+[ext_resource type="Texture2D" uid="uid://dntv43ra737gq" path="res://Assets/Slots/goat.png" id="7_7p25o"]
+[ext_resource type="Texture2D" uid="uid://cov34vn6aoyfo" path="res://Assets/Slot Machine Assets/chips.png" id="9_d2xaa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d2xaa"]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="Slots" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 960.0
-offset_top = 540.0
-offset_right = 960.0
-offset_bottom = 540.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_rkj4q")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.147672, 0.147672, 0.147672, 1)
 
-[node name="MainContainer" type="VBoxContainer" parent="."]
+[node name="TopBarPanel" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 220.0
 grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
+texture = ExtResource("2_7p25o")
 
-[node name="HeaderContainer" type="HBoxContainer" parent="MainContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_constants/separation = 15
-alignment = 2
+[node name="AnimalSlotsPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -374.0
+offset_right = 375.0
+offset_bottom = 220.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_d2xaa")
 
-[node name="BackButton" type="Button" parent="MainContainer/HeaderContainer"]
+[node name="AnimalSlotsLogo" type="TextureRect" parent="AnimalSlotsPanel"]
 layout_mode = 2
-theme = ExtResource("2_u1577")
-theme_override_font_sizes/font_size = 30
-text = "Back"
+texture = ExtResource("2_htvkm")
+expand_mode = 1
 
-[node name="ExitGameButton" type="Button" parent="MainContainer/HeaderContainer"]
-layout_mode = 2
-theme = ExtResource("2_u1577")
-theme_override_font_sizes/font_size = 30
-text = "X"
-
-[node name="ReelsContainer" type="HBoxContainer" parent="MainContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-alignment = 1
-
-[node name="Reel1" type="VBoxContainer" parent="MainContainer/ReelsContainer"]
-custom_minimum_size = Vector2(125, 125)
-layout_mode = 2
-size_flags_stretch_ratio = 0.0
-alignment = 1
-
-[node name="Symbol" type="TextureRect" parent="MainContainer/ReelsContainer/Reel1"]
-custom_minimum_size = Vector2(125, 125)
-layout_mode = 2
-texture = ExtResource("2_h4kg4")
-expand_mode = 5
-
-[node name="Symbol2" type="TextureRect" parent="MainContainer/ReelsContainer/Reel1"]
-layout_mode = 2
-texture = ExtResource("3_dd6pm")
-
-[node name="Symbol3" type="TextureRect" parent="MainContainer/ReelsContainer/Reel1"]
-layout_mode = 2
-texture = ExtResource("4_u1577")
-
-[node name="Symbol4" type="TextureRect" parent="MainContainer/ReelsContainer/Reel1"]
-layout_mode = 2
-
-[node name="Symbol5" type="TextureRect" parent="MainContainer/ReelsContainer/Reel1"]
-layout_mode = 2
-
-[node name="Symbol6" type="TextureRect" parent="MainContainer/ReelsContainer/Reel1"]
-layout_mode = 2
-
-[node name="Symbol7" type="TextureRect" parent="MainContainer/ReelsContainer/Reel1"]
-layout_mode = 2
-
-[node name="Reel2" type="VBoxContainer" parent="MainContainer/ReelsContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Symbol" type="TextureRect" parent="MainContainer/ReelsContainer/Reel2"]
-layout_mode = 2
-
-[node name="Symbol2" type="TextureRect" parent="MainContainer/ReelsContainer/Reel2"]
-layout_mode = 2
-
-[node name="Symbol3" type="TextureRect" parent="MainContainer/ReelsContainer/Reel2"]
-layout_mode = 2
-
-[node name="Symbol4" type="TextureRect" parent="MainContainer/ReelsContainer/Reel2"]
-layout_mode = 2
-
-[node name="Symbol5" type="TextureRect" parent="MainContainer/ReelsContainer/Reel2"]
-layout_mode = 2
-
-[node name="Symbol6" type="TextureRect" parent="MainContainer/ReelsContainer/Reel2"]
-layout_mode = 2
-
-[node name="Symbol7" type="TextureRect" parent="MainContainer/ReelsContainer/Reel2"]
-layout_mode = 2
-
-[node name="Reel3" type="VBoxContainer" parent="MainContainer/ReelsContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Symbol" type="TextureRect" parent="MainContainer/ReelsContainer/Reel3"]
-layout_mode = 2
-
-[node name="Symbol2" type="TextureRect" parent="MainContainer/ReelsContainer/Reel3"]
-layout_mode = 2
-
-[node name="Symbol3" type="TextureRect" parent="MainContainer/ReelsContainer/Reel3"]
-layout_mode = 2
-
-[node name="Symbol4" type="TextureRect" parent="MainContainer/ReelsContainer/Reel3"]
-layout_mode = 2
-
-[node name="Symbol5" type="TextureRect" parent="MainContainer/ReelsContainer/Reel3"]
-layout_mode = 2
-
-[node name="Symbol6" type="TextureRect" parent="MainContainer/ReelsContainer/Reel3"]
-layout_mode = 2
-
-[node name="Symbol7" type="TextureRect" parent="MainContainer/ReelsContainer/Reel3"]
-layout_mode = 2
-
-[node name="PaylineIndicator" type="ColorRect" parent="MainContainer"]
-layout_mode = 2
-
-[node name="FreeSpinsPanelContainer" type="PanelContainer" parent="MainContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="FreeSpinsContainer" type="HBoxContainer" parent="MainContainer/FreeSpinsPanelContainer"]
-layout_mode = 2
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="FreeSpinsLabel" type="Label" parent="MainContainer/FreeSpinsPanelContainer/FreeSpinsContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Free Spins:"
-
-[node name="FreeSpinsCount" type="Label" parent="MainContainer/FreeSpinsPanelContainer/FreeSpinsContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "0"
-
-[node name="ChipsPanelContainer" type="PanelContainer" parent="MainContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="ChipsDisplay" type="HBoxContainer" parent="MainContainer/ChipsPanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="ChipsLabel" type="Label" parent="MainContainer/ChipsPanelContainer/ChipsDisplay"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Chips:"
-
-[node name="ChipsAmount" type="Label" parent="MainContainer/ChipsPanelContainer/ChipsDisplay"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "1000"
-
-[node name="ControlsContainer" type="HBoxContainer" parent="MainContainer"]
-layout_mode = 2
+[node name="ControlsContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -946.5
+offset_top = -148.0
+offset_right = 946.5
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="BetControls" type="HBoxContainer" parent="MainContainer/ControlsContainer"]
+[node name="BetControls" type="HBoxContainer" parent="ControlsContainer"]
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="BetDownButton" type="Button" parent="MainContainer/ControlsContainer/BetControls"]
+[node name="BetDownButton" type="Button" parent="ControlsContainer/BetControls"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "-"
 
-[node name="BetAmountLabel" type="Label" parent="MainContainer/ControlsContainer/BetControls"]
+[node name="BetAmountLabel" type="Label" parent="ControlsContainer/BetControls"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "1000000000"
 
-[node name="BetUpButton" type="Button" parent="MainContainer/ControlsContainer/BetControls"]
+[node name="BetUpButton" type="Button" parent="ControlsContainer/BetControls"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "+"
 
-[node name="MaxBetButton" type="Button" parent="MainContainer/ControlsContainer"]
+[node name="MaxBetButton" type="Button" parent="ControlsContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_u1577")
@@ -230,57 +111,268 @@ theme_override_font_sizes/font_size = 50
 text = "Max
 Bet"
 
-[node name="SpinButton" type="Button" parent="MainContainer/ControlsContainer"]
+[node name="SpinButton" type="Button" parent="ControlsContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 50
 text = "Spin"
 
-[node name="AutoSpinControls" type="HBoxContainer" parent="MainContainer/ControlsContainer"]
+[node name="AutoSpinControls" type="HBoxContainer" parent="ControlsContainer"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="AutoSpinButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+[node name="AutoSpinButton" type="Button" parent="ControlsContainer/AutoSpinControls"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 50
 text = "Auto Spin"
 
-[node name="AutoSpinDownButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+[node name="AutoSpinDownButton" type="Button" parent="ControlsContainer/AutoSpinControls"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "-"
 
-[node name="AutoSpinCountLabel" type="Label" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+[node name="AutoSpinCountLabel" type="Label" parent="ControlsContainer/AutoSpinControls"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "1000"
 
-[node name="AutoSpinUpButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+[node name="AutoSpinUpButton" type="Button" parent="ControlsContainer/AutoSpinControls"]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 100
 text = "+"
 
-[node name="StopAutoSpinButton" type="Button" parent="MainContainer/ControlsContainer/AutoSpinControls"]
+[node name="StopAutoSpinButton" type="Button" parent="ControlsContainer/AutoSpinControls"]
 layout_mode = 2
 theme = ExtResource("2_u1577")
 theme_override_font_sizes/font_size = 50
 text = "Stop
 Auto Spin"
 
-[node name="WinningsContainer" type="PanelContainer" parent="MainContainer"]
-custom_minimum_size = Vector2(750, 315)
+[node name="HeaderContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -127.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = 56.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+theme_override_constants/separation = 15
+alignment = 2
+
+[node name="BackButton" type="Button" parent="HeaderContainer"]
 layout_mode = 2
+theme = ExtResource("2_u1577")
+theme_override_font_sizes/font_size = 30
+text = "Back"
+
+[node name="ExitGameButton" type="Button" parent="HeaderContainer"]
+layout_mode = 2
+theme = ExtResource("2_u1577")
+theme_override_font_sizes/font_size = 30
+text = "X"
+
+[node name="ReelsContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -191.5
+offset_top = 220.0
+offset_right = 191.5
+offset_bottom = 619.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="Reel1" type="VBoxContainer" parent="ReelsContainer"]
+custom_minimum_size = Vector2(125, 125)
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+alignment = 1
+
+[node name="Symbol" type="TextureRect" parent="ReelsContainer/Reel1"]
+custom_minimum_size = Vector2(125, 125)
+layout_mode = 2
+texture = ExtResource("2_h4kg4")
+expand_mode = 5
+
+[node name="Symbol2" type="TextureRect" parent="ReelsContainer/Reel1"]
+layout_mode = 2
+texture = ExtResource("3_dd6pm")
+
+[node name="Symbol3" type="TextureRect" parent="ReelsContainer/Reel1"]
+layout_mode = 2
+texture = ExtResource("4_u1577")
+
+[node name="Symbol4" type="TextureRect" parent="ReelsContainer/Reel1"]
+layout_mode = 2
+
+[node name="Symbol5" type="TextureRect" parent="ReelsContainer/Reel1"]
+layout_mode = 2
+
+[node name="Symbol6" type="TextureRect" parent="ReelsContainer/Reel1"]
+layout_mode = 2
+
+[node name="Symbol7" type="TextureRect" parent="ReelsContainer/Reel1"]
+layout_mode = 2
+
+[node name="Reel2" type="VBoxContainer" parent="ReelsContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Symbol" type="TextureRect" parent="ReelsContainer/Reel2"]
+layout_mode = 2
+texture = ExtResource("4_u1577")
+
+[node name="Symbol2" type="TextureRect" parent="ReelsContainer/Reel2"]
+layout_mode = 2
+texture = ExtResource("3_dd6pm")
+
+[node name="Symbol3" type="TextureRect" parent="ReelsContainer/Reel2"]
+layout_mode = 2
+texture = ExtResource("2_h4kg4")
+
+[node name="Symbol4" type="TextureRect" parent="ReelsContainer/Reel2"]
+layout_mode = 2
+
+[node name="Symbol5" type="TextureRect" parent="ReelsContainer/Reel2"]
+layout_mode = 2
+
+[node name="Symbol6" type="TextureRect" parent="ReelsContainer/Reel2"]
+layout_mode = 2
+
+[node name="Symbol7" type="TextureRect" parent="ReelsContainer/Reel2"]
+layout_mode = 2
+
+[node name="Reel3" type="VBoxContainer" parent="ReelsContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Symbol" type="TextureRect" parent="ReelsContainer/Reel3"]
+layout_mode = 2
+texture = ExtResource("7_7p25o")
+
+[node name="Symbol2" type="TextureRect" parent="ReelsContainer/Reel3"]
+layout_mode = 2
+texture = ExtResource("4_u1577")
+
+[node name="Symbol3" type="TextureRect" parent="ReelsContainer/Reel3"]
+layout_mode = 2
+texture = ExtResource("2_h4kg4")
+
+[node name="Symbol4" type="TextureRect" parent="ReelsContainer/Reel3"]
+layout_mode = 2
+
+[node name="Symbol5" type="TextureRect" parent="ReelsContainer/Reel3"]
+layout_mode = 2
+
+[node name="Symbol6" type="TextureRect" parent="ReelsContainer/Reel3"]
+layout_mode = 2
+
+[node name="Symbol7" type="TextureRect" parent="ReelsContainer/Reel3"]
+layout_mode = 2
+
+[node name="PaylineIndicator" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -960.0
+offset_top = 187.0
+offset_right = 960.0
+offset_bottom = 187.0
+grow_horizontal = 2
+
+[node name="FreeSpinsPanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+offset_left = 1533.0
+offset_top = 361.0
+offset_right = 1853.0
+offset_bottom = 430.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="FreeSpinsContainer" type="HBoxContainer" parent="FreeSpinsPanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="FreeSpinsLabel" type="Label" parent="FreeSpinsPanelContainer/FreeSpinsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Free Spins:"
+
+[node name="FreeSpinsCount" type="Label" parent="FreeSpinsPanelContainer/FreeSpinsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "0"
+
+[node name="NamePanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 583.0
+offset_bottom = 77.0
+size_flags_horizontal = 4
+
+[node name="NameLabel" type="Label" parent="NamePanelContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Name"
+horizontal_alignment = 1
+
+[node name="ChipsPanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 79.0
+offset_right = 583.0
+offset_bottom = 148.0
+size_flags_horizontal = 4
+
+[node name="ChipsDisplay" type="HBoxContainer" parent="ChipsPanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 30
+
+[node name="ChipsLabel" type="TextureRect" parent="ChipsPanelContainer/ChipsDisplay"]
+layout_mode = 2
+texture = ExtResource("9_d2xaa")
+expand_mode = 2
+
+[node name="ChipsAmount" type="Label" parent="ChipsPanelContainer/ChipsDisplay"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "1000"
+
+[node name="WinningsContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(750, 315)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -375.0
+offset_top = 59.5
+offset_right = 375.0
+offset_bottom = 374.5
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="WinningsLabel" type="Label" parent="MainContainer/WinningsContainer"]
+[node name="WinningsLabel" type="Label" parent="WinningsContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "You won!"
@@ -299,10 +391,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = -717.0
-offset_top = -449.0
-offset_right = -426.0
-offset_bottom = -122.0
+offset_left = 152.0
+offset_top = -163.5
+offset_right = 443.0
+offset_bottom = 163.5
 grow_vertical = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]

@@ -111,24 +111,24 @@ func _ready():
 	initialize_reels()
 	
 	# Connect button signals
-	$MainContainer/ControlsContainer/BetControls/BetDownButton.connect("pressed", _on_bet_down_pressed)
-	$MainContainer/ControlsContainer/BetControls/BetUpButton.connect("pressed", _on_bet_up_pressed)
-	$MainContainer/ControlsContainer/SpinButton.connect("pressed", _on_spin_pressed)
-	$MainContainer/ControlsContainer/MaxBetButton.connect("pressed", _on_max_bet_pressed)
-	$MainContainer/HeaderContainer/BackButton.connect("pressed", _on_back_pressed)
-	$MainContainer/HeaderContainer/ExitGameButton.connect("pressed", _on_exit_game_pressed)
+	$ControlsContainer/BetControls/BetDownButton.connect("pressed", _on_bet_down_pressed)
+	$ControlsContainer/BetControls/BetUpButton.connect("pressed", _on_bet_up_pressed)
+	$ControlsContainer/SpinButton.connect("pressed", _on_spin_pressed)
+	$ControlsContainer/MaxBetButton.connect("pressed", _on_max_bet_pressed)
+	$HeaderContainer/BackButton.connect("pressed", _on_back_pressed)
+	$HeaderContainer/ExitGameButton.connect("pressed", _on_exit_game_pressed)
 	
 	# Connect auto-spin buttons
-	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.connect("pressed", _on_auto_spin_pressed)
-	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinUpButton.connect("pressed", _on_auto_spin_up_pressed)
-	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinDownButton.connect("pressed", _on_auto_spin_down_pressed)
-	$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.connect("pressed", _on_stop_auto_spin_pressed)
+	$ControlsContainer/AutoSpinControls/AutoSpinButton.connect("pressed", _on_auto_spin_pressed)
+	$ControlsContainer/AutoSpinControls/AutoSpinUpButton.connect("pressed", _on_auto_spin_up_pressed)
+	$ControlsContainer/AutoSpinControls/AutoSpinDownButton.connect("pressed", _on_auto_spin_down_pressed)
+	$ControlsContainer/AutoSpinControls/StopAutoSpinButton.connect("pressed", _on_stop_auto_spin_pressed)
 	
 	# Set initial auto-spin values
 	update_auto_spin_display()
 	
 	# Hide stop button initially
-	$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
+	$ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
 	
 	# Update UI
 	update_bet_display()
@@ -145,9 +145,9 @@ func initialize_reels():
 	
 	# Get references to the reel containers
 	reels = [
-		$MainContainer/ReelsContainer/Reel1,
-		$MainContainer/ReelsContainer/Reel2,
-		$MainContainer/ReelsContainer/Reel3
+		$ReelsContainer/Reel1,
+		$ReelsContainer/Reel2,
+		$ReelsContainer/Reel3
 	]
 	
 	# Initialize each reel with random symbols
@@ -222,30 +222,30 @@ func add_indicator_overlay(parent_rect, indicator_type):
 
 # Update the bet display
 func update_bet_display():
-	$MainContainer/ControlsContainer/BetControls/BetAmountLabel.text = str(current_bet)
+	$ControlsContainer/BetControls/BetAmountLabel.text = str(current_bet)
 
 # Update the chips display
 func update_chips_display():
-	$MainContainer/ChipsPanelContainer/ChipsDisplay/ChipsAmount.text = str(player_chips)
+	$ChipsPanelContainer/ChipsDisplay/ChipsAmount.text = str(player_chips)
 
 # Update the free spins display
 func update_free_spins_display():
-	$MainContainer/FreeSpinsPanelContainer/FreeSpinsContainer/FreeSpinsCount.text = str(free_spins)
+	$FreeSpinsPanelContainer/FreeSpinsContainer/FreeSpinsCount.text = str(free_spins)
 	
 	# Adjust button text based on mode
 	if current_mode == "free_spins" and free_spins > 0:
-		$MainContainer/ControlsContainer/SpinButton.text = "FREE SPIN"
+		$ControlsContainer/SpinButton.text = "FREE SPIN"
 	else:
-		$MainContainer/ControlsContainer/SpinButton.text = "SPIN"
+		$ControlsContainer/SpinButton.text = "SPIN"
 
 # Update the auto-spin display
 func update_auto_spin_display():
 	auto_spin_max = auto_spin_options[auto_spin_index]
-	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinCountLabel.text = str(auto_spin_max)
+	$ControlsContainer/AutoSpinControls/AutoSpinCountLabel.text = str(auto_spin_max)
 
 # Update the winnings display
 func update_winnings_display(text):
-	$MainContainer/WinningsContainer/WinningsLabel.text = text
+	$WinningsContainer/WinningsLabel.text = text
 
 # Decrease the bet amount
 func _on_bet_down_pressed():
@@ -293,8 +293,8 @@ func _on_auto_spin_pressed():
 	auto_spin_count = auto_spin_max
 	
 	# Show stop button and hide auto-spin button
-	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.visible = false
-	$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = true
+	$ControlsContainer/AutoSpinControls/AutoSpinButton.visible = false
+	$ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = true
 	
 	# Update display
 	update_winnings_display("Auto-spinning " + str(auto_spin_count) + " times...")
@@ -323,8 +323,8 @@ func _on_stop_auto_spin_pressed():
 	auto_spin_count = 0
 	
 	# Show auto-spin button and hide stop button
-	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.visible = true
-	$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
+	$ControlsContainer/AutoSpinControls/AutoSpinButton.visible = true
+	$ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
 	
 	update_winnings_display("Auto-spin stopped.")
 
@@ -363,8 +363,8 @@ func perform_spin():
 	
 	# Disable buttons during spin
 	is_spinning = true
-	$MainContainer/ControlsContainer/SpinButton.disabled = true
-	$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.disabled = true
+	$ControlsContainer/SpinButton.disabled = true
+	$ControlsContainer/AutoSpinControls/AutoSpinButton.disabled = true
 	
 	# Play spin sound
 	$AudioContainer/SpinSound.play()
@@ -432,8 +432,8 @@ func animate_reel(reel_index, new_symbols):
 		await get_tree().create_timer(0.5).timeout
 		calculate_win()
 		is_spinning = false
-		$MainContainer/ControlsContainer/SpinButton.disabled = false
-		$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.disabled = false
+		$ControlsContainer/SpinButton.disabled = false
+		$ControlsContainer/AutoSpinControls/AutoSpinButton.disabled = false
 		
 		# Check if we should continue auto-spinning
 		if is_auto_spinning and auto_spin_count > 0 and current_mode != "free_spins":
@@ -444,8 +444,8 @@ func animate_reel(reel_index, new_symbols):
 				perform_spin()
 		elif is_auto_spinning and (auto_spin_count <= 0 or current_mode == "free_spins"):
 			# Auto-spinning complete or free spins triggered
-			$MainContainer/ControlsContainer/AutoSpinControls/AutoSpinButton.visible = true
-			$MainContainer/ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
+			$ControlsContainer/AutoSpinControls/AutoSpinButton.visible = true
+			$ControlsContainer/AutoSpinControls/StopAutoSpinButton.visible = false
 			is_auto_spinning = false
 			
 			if current_mode == "free_spins" and stop_on_feature:
