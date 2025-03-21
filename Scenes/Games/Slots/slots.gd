@@ -419,10 +419,10 @@ func animate_reel(reel_index, new_symbols):
 		symbol_rect.texture = load("res://Assets/Slots/" + new_symbols[j] + ".png")
 		
 		# Add special indicator overlays if needed
-		if new_symbols[j] == "goat":
+		if new_symbols[j] == "dinosaurbones":
 			# Add wild indicator
 			add_indicator_overlay(symbol_rect, "wild")
-		elif new_symbols[j] == "bear" and j == 1:  # Only middle row
+		elif new_symbols[j] == "sauropodskeleton" and j == 1:  # Only middle row
 			# Add free spin indicator
 			add_indicator_overlay(symbol_rect, "free_spin")
 	
@@ -614,11 +614,19 @@ func save_to_global():
 		print("Saved " + str(player_chips) + " chips and stats to Global")
 
 # Return to casino floor
+# Return to casino floor
 func _on_back_pressed():
 	print("Back button pressed - returning to casino floor")
 	
+	# Stop any active animations or timers
+	for i in range(reel_count):
+		if reels[i] and is_instance_valid(reels[i]):
+			# Cancel any pending animations
+			reels[i].set_process(false)
+	
 	# Make sure auto-spinning is stopped
 	is_auto_spinning = false
+	is_spinning = false
 	
 	# Save chips to Global
 	save_to_global()
@@ -633,6 +641,7 @@ func _on_back_pressed():
 	var success = await SceneManager.change_scene("casino_floor")
 	if !success:
 		print("ERROR: Failed to transition to casino floor")
+		SceneManager.change_scene("casino_floor")  # Try againloor")
 		SceneManager.change_scene("casino_floor")  # Try again
 
 

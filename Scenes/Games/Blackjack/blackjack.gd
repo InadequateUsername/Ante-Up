@@ -486,7 +486,7 @@ func end_game(result):
 		
 		# Update the message
 		if result_label and is_instance_valid(result_label):
-			result_label.text = "Previous Bet Placed: " + str(current_bet) + "Ready to Deal or Adjust Bet!"
+			result_label.text = "Ready to Deal or Adjust Bet!"
 	else:
 		# If player doesn't have enough chips for the previous bet
 		if result_label and is_instance_valid(result_label):

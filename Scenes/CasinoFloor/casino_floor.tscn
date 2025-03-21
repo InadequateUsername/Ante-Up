@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://kqb1praouotd" path="res://Assets/Logos/CasinoFloor.jpg" id="3_5susf"]
 [ext_resource type="Texture2D" uid="uid://cov34vn6aoyfo" path="res://Assets/Slot Machine Assets/chips.png" id="4_5susf"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3m3yw"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5susf"]
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -49,11 +49,12 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -374.0
-offset_right = 375.0
-offset_bottom = 220.0
+offset_left = -315.0
+offset_top = 17.0
+offset_right = 315.0
+offset_bottom = 202.0
 grow_horizontal = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_3m3yw")
+theme_override_styles/panel = SubResource("StyleBoxFlat_5susf")
 
 [node name="CasinoFloorLogo" type="TextureRect" parent="CasinoFloorPanel"]
 layout_mode = 2
@@ -61,9 +62,9 @@ texture = ExtResource("3_5susf")
 expand_mode = 1
 
 [node name="NamePanelContainer" type="PanelContainer" parent="."]
-offset_left = 8.0
+offset_left = 40.0
 offset_top = 12.0
-offset_right = 583.0
+offset_right = 615.0
 offset_bottom = 67.0
 size_flags_horizontal = 4
 
@@ -73,23 +74,23 @@ theme_override_font_sizes/font_size = 40
 text = "Name"
 horizontal_alignment = 1
 
-[node name="Chips" type="PanelContainer" parent="."]
+[node name="ChipsPanel" type="PanelContainer" parent="."]
 layout_mode = 2
-offset_left = 8.0
+offset_left = 40.0
 offset_top = 83.0
-offset_right = 583.0
+offset_right = 615.0
 offset_bottom = 138.0
 
-[node name="ChipsHBoxContainer" type="HBoxContainer" parent="Chips"]
+[node name="ChipsHBoxContainer" type="HBoxContainer" parent="ChipsPanel"]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="ChipsImage" type="TextureRect" parent="Chips/ChipsHBoxContainer"]
+[node name="ChipsImage" type="TextureRect" parent="ChipsPanel/ChipsHBoxContainer"]
 layout_mode = 2
 texture = ExtResource("4_5susf")
 expand_mode = 2
 
-[node name="ChipsAmount" type="Label" parent="Chips/ChipsHBoxContainer"]
+[node name="ChipsAmount" type="Label" parent="ChipsPanel/ChipsHBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "100"
