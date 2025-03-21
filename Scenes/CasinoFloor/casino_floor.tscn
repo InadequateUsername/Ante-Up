@@ -1,8 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://cle7850tvwekt"]
+[gd_scene load_steps=8 format=3 uid="uid://cle7850tvwekt"]
 
 [ext_resource type="Script" uid="uid://b0lr1f5c0xvgl" path="res://Scenes/CasinoFloor/casino_floor.gd" id="1_xwx8d"]
 [ext_resource type="Script" uid="uid://d15wg4x3f50db" path="res://Scenes/CasinoFloor/manual_singleton.gd" id="2_0jnkg"]
+[ext_resource type="Texture2D" uid="uid://c7m4y108chyj4" path="res://Assets/Slot Machine Assets/topbar.png" id="2_8jcpk"]
 [ext_resource type="Theme" uid="uid://phgp7ky6igg7" path="res://Themes/buttons.tres" id="2_a8ndx"]
+[ext_resource type="Texture2D" uid="uid://kqb1praouotd" path="res://Assets/Logos/CasinoFloor.jpg" id="3_5susf"]
+[ext_resource type="Texture2D" uid="uid://cov34vn6aoyfo" path="res://Assets/Slot Machine Assets/chips.png" id="4_5susf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3m3yw"]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="CasinoFloor" type="Control"]
 layout_mode = 3
@@ -22,32 +36,63 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.10135, 0.328373, 0.186105, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="TopBarPanel" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 220.0
+grow_horizontal = 2
+texture = ExtResource("2_8jcpk")
+
+[node name="CasinoFloorPanel" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -214.0
-offset_right = 214.0
-offset_bottom = 138.0
+offset_left = -374.0
+offset_right = 375.0
+offset_bottom = 220.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3m3yw")
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="CasinoFloorLogo" type="TextureRect" parent="CasinoFloorPanel"]
 layout_mode = 2
+texture = ExtResource("3_5susf")
+expand_mode = 1
 
-[node name="CasinoFloorLabel" type="Label" parent="VBoxContainer/PanelContainer"]
+[node name="NamePanelContainer" type="PanelContainer" parent="."]
+offset_left = 8.0
+offset_top = 12.0
+offset_right = 583.0
+offset_bottom = 67.0
+size_flags_horizontal = 4
+
+[node name="NameLabel" type="Label" parent="NamePanelContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "Casino Floor"
+theme_override_font_sizes/font_size = 40
+text = "Name"
 horizontal_alignment = 1
-vertical_alignment = 1
 
-[node name="DescriptionLabel" type="Label" parent="VBoxContainer"]
+[node name="Chips" type="PanelContainer" parent="."]
 layout_mode = 2
-theme_override_font_sizes/font_size = 25
-text = "Choose a Game"
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_left = 8.0
+offset_top = 83.0
+offset_right = 583.0
+offset_bottom = 138.0
+
+[node name="ChipsHBoxContainer" type="HBoxContainer" parent="Chips"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="ChipsImage" type="TextureRect" parent="Chips/ChipsHBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_5susf")
+expand_mode = 2
+
+[node name="ChipsAmount" type="Label" parent="Chips/ChipsHBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "100"
 
 [node name="GameButtonsContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -63,27 +108,6 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
-
-[node name="Chips" type="PanelContainer" parent="GameButtonsContainer"]
-layout_mode = 2
-
-[node name="ChipsHBoxContainer" type="HBoxContainer" parent="GameButtonsContainer/Chips"]
-layout_mode = 2
-alignment = 1
-
-[node name="ChipsLabel" type="Label" parent="GameButtonsContainer/Chips/ChipsHBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Chips:"
-
-[node name="Spacer" type="Control" parent="GameButtonsContainer/Chips/ChipsHBoxContainer"]
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-
-[node name="ChipsAmount" type="Label" parent="GameButtonsContainer/Chips/ChipsHBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "100"
 
 [node name="HSeparator" type="HSeparator" parent="GameButtonsContainer"]
 layout_mode = 2
@@ -120,10 +144,12 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -123.0
-offset_bottom = 57.0
+offset_left = -146.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 67.0
 grow_horizontal = 0
-theme_override_constants/separation = 35
+theme_override_constants/separation = 15
 
 [node name="BackButton" type="Button" parent="ReturnButtonsContainer"]
 layout_mode = 2

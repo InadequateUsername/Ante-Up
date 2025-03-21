@@ -36,7 +36,7 @@ func _ready():
 	
 # Function to update the chips display
 func update_chips_display():
-	$GameButtonsContainer/Chips/ChipsHBoxContainer/ChipsAmount.text = str(int(player_chips))
+	$Chips/ChipsHBoxContainer/ChipsAmount.text = str(int(player_chips))
 	print("Updated chips display: ", int(player_chips))
 
 # Function to go to the Blackjack game

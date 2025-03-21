@@ -2,8 +2,8 @@ extends Control
 
 # Player variables - synced with Global
 var player_chips = 1000
-var current_bet = 10
-var min_bet = 10
+var current_bet = 50
+var min_bet = 50
 var max_bet = 1000000000
 
 # Game state variables
@@ -14,13 +14,13 @@ var current_mode = "normal"  # "normal" or "free_spins"
 var is_auto_spinning = false
 var auto_spin_count = 0
 var auto_spin_max = 1000  # Default number of auto spins
-var auto_spin_options = [5, 10, 25, 50, 100, 250, 500, 1000]  # Available options for auto-spin
+var auto_spin_options = [5, 10, 15, 20, 25, 50, 100, 250]  # Available options for auto-spin
 var auto_spin_index = 1  # Default to 10 spins (index 1)
 var stop_on_feature = true  # Stop auto-spin when free spins are triggered
 
 # Reel variables
 var reels = []
-var reel_count = 3
+var reel_count = 5
 var symbols_per_reel = 3
 var is_spinning = false
 var spin_speed = 0.1
@@ -147,7 +147,9 @@ func initialize_reels():
 	reels = [
 		$ReelsContainer/Reel1,
 		$ReelsContainer/Reel2,
-		$ReelsContainer/Reel3
+		$ReelsContainer/Reel3,
+		$ReelsContainer/Reel4,
+		$ReelsContainer/Reel5
 	]
 	
 	# Initialize each reel with random symbols
@@ -172,9 +174,9 @@ func initialize_reels():
 			symbol_rect.texture = load("res://Assets/Slots/" + symbol + ".png")
 			
 			# Add indicator if needed
-			if symbol == "goat":
+			if symbol == "dinosaurbones":
 				add_indicator_overlay(symbol_rect, "wild")
-			elif symbol == "bear" and j == 1:  # Only middle row
+			elif symbol == "sauropodskeleton" and j == 1:  # Only middle row
 				add_indicator_overlay(symbol_rect, "free_spin")
 		
 		current_symbols.append(reel_symbols)
@@ -250,13 +252,13 @@ func update_winnings_display(text):
 # Decrease the bet amount
 func _on_bet_down_pressed():
 	if current_bet > min_bet:
-		current_bet -= 5
+		current_bet -= 50
 		update_bet_display()
 
 # Increase the bet amount
 func _on_bet_up_pressed():
 	if current_bet < max_bet and current_bet < player_chips:
-		current_bet += 5
+		current_bet += 50
 		update_bet_display()
 
 # Set to maximum bet
@@ -467,12 +469,14 @@ func calculate_win():
 		if current_symbols[i][1] == wild_symbol:
 			has_wild = true
 	
-	# Check for free spins - 3 sauropodskeleton gives free spins
-	if visible_row.count("sauropodskeleton") == 3:
-		free_spins += 5
+	# Check for free spins - 3 or more sauropodskeleton gives free spins
+	var skeleton_count = visible_row.count("sauropodskeleton")
+	if skeleton_count >= 3:
+		var bonus_spins = 5 + (skeleton_count - 3) * 2  # 5 for 3 symbols, +2 for each additional
+		free_spins += bonus_spins
 		update_free_spins_display()
-		win_description += "3 Saurpod Skeletons: 5 FREE SPINS!\n"
-		slots_stats["total_free_spins_won"] += 5
+		win_description += str(skeleton_count) + " Saurpod Skeletons: " + str(bonus_spins) + " FREE SPINS!\n"
+		slots_stats["total_free_spins_won"] += bonus_spins
 		free_spins_triggered = true
 	
 	# Calculate payouts for each symbol type
@@ -481,25 +485,49 @@ func calculate_win():
 		if symbol == wild_symbol:
 			continue
 		
-		var consecutive = 0
+		# Count from left to right with potential breaks
+		var best_consecutive = 0
 		var wilds_used = 0
+		var current_consecutive = 0
+		var current_wilds = 0
 		
-		# Count consecutive symbols from left to right, allowing wilds to substitute
 		for i in range(reel_count):
 			var current = visible_row[i]
 			
 			# If exact match or wild symbol, count it
-			if current == symbol:
-				consecutive += 1
-			elif current == wild_symbol:
-				consecutive += 1
-				wilds_used += 1
+			if current == symbol or current == wild_symbol:
+				current_consecutive += 1
+				if current == wild_symbol:
+					current_wilds += 1
 			else:
 				break
 		
+		# Update best count
+		if current_consecutive > best_consecutive:
+			best_consecutive = current_consecutive
+			wilds_used = current_wilds
+		
+		# Enhanced payouts for 4 and 5 symbols
+		if symbol in payouts:
+			var max_existing_key = 0
+			for key in payouts[symbol].keys():
+				if key > max_existing_key:
+					max_existing_key = key
+			
+			# Add 4 and 5 symbol payouts if they don't exist
+			if max_existing_key > 0 and best_consecutive > max_existing_key:
+				if best_consecutive == 4:
+					# 4 of a kind pays 2.5x the 3 of a kind
+					var payout_value = payouts[symbol][max_existing_key] * 2.5
+					payouts[symbol][4] = payout_value
+				elif best_consecutive == 5:
+					# 5 of a kind pays 5x the 3 of a kind
+					var payout_value = payouts[symbol][max_existing_key] * 5
+					payouts[symbol][5] = payout_value
+		
 		# Check if we have winning combinations in payout table
-		if symbol in payouts and consecutive in payouts[symbol]:
-			var this_win = current_bet * payouts[symbol][consecutive]
+		if symbol in payouts and best_consecutive in payouts[symbol]:
+			var this_win = current_bet * payouts[symbol][best_consecutive]
 			winnings += this_win
 			
 			if win_description:
@@ -507,20 +535,37 @@ func calculate_win():
 				
 			# Show if wilds were used in the win
 			if wilds_used > 0:
-				win_description += str(consecutive - wilds_used) + " " + symbol + "s + " + str(wilds_used) + " Wild: " + str(this_win)
+				win_description += str(best_consecutive - wilds_used) + " " + symbol + "s + " + str(wilds_used) + " Wild: " + str(this_win)
 				slots_stats["wild_combinations"] += 1
 			else:
-				win_description += str(consecutive) + " " + symbol + "s: " + str(this_win)
+				win_description += str(best_consecutive) + " " + symbol + "s: " + str(this_win)
 	
 	# Check for wild symbol combinations (they pay on their own)
 	var wild_count = visible_row.count(wild_symbol)
-	if wild_count > 0 and wild_symbol in payouts and wild_count in payouts[wild_symbol]:
-		var wild_win = current_bet * payouts[wild_symbol][wild_count]
-		winnings += wild_win
+	if wild_count > 0:
+		var wild_win = 0
 		
-		if win_description:
-			win_description += "\n"
-		win_description += str(wild_count) + " " + wild_symbol + "s: " + str(wild_win)
+		# Extend wild payouts for 4 and 5 wilds
+		if wild_count >= 3:
+			if wild_count == 3 and wild_symbol in payouts and 3 in payouts[wild_symbol]:
+				wild_win = current_bet * payouts[wild_symbol][3]
+			elif wild_count == 4:
+				# 4 wilds pays 3x the 3 wild payout
+				if wild_symbol in payouts and 3 in payouts[wild_symbol]:
+					wild_win = current_bet * payouts[wild_symbol][3] * 3
+			elif wild_count == 5:
+				# 5 wilds pays 10x the 3 wild payout
+				if wild_symbol in payouts and 3 in payouts[wild_symbol]:
+					wild_win = current_bet * payouts[wild_symbol][3] * 10
+		elif wild_count in [1, 2] and wild_symbol in payouts and wild_count in payouts[wild_symbol]:
+			wild_win = current_bet * payouts[wild_symbol][wild_count]
+		
+		if wild_win > 0:
+			winnings += wild_win
+			
+			if win_description:
+				win_description += "\n"
+			win_description += str(wild_count) + " " + wild_symbol + "s: " + str(wild_win)
 	
 	# Update chips, stats, and display
 	if winnings > 0:

@@ -19,7 +19,7 @@ var player_chips = 1000  # Default starting chips
 # UI References
 @onready var player_score_label = $GameArea/PlayerArea/PlayerScoreLabel
 @onready var dealer_score_label = $GameArea/DealerArea/DealerScoreLabel
-@onready var result_label = $UI/ResultLabel
+@onready var result_label = $UI/ResultContainer/ResultLabel
 @onready var chips_label = $UI/ButtonsPanelContainer/ButtonsContainer/ChipsAmount
 @onready var bet_label = $UI/ButtonsPanelContainer/ButtonsContainer/BetAmount
 
@@ -148,7 +148,7 @@ func initialize_game():
 		get_node("UI/ButtonsContainer/BetButtonsContainer/BetDecreaseButton").disabled = true
 	
 	if result_label and is_instance_valid(result_label):
-		result_label.text = "Place your bet and deal to start"
+		result_label.text = "Place Your Bet and Deal to Start!"
 
 # Create and shuffle a new deck of cards
 func create_deck():
@@ -315,7 +315,7 @@ func _on_deal_button_pressed():
 			get_node("UI/ButtonsPanelContainer/ButtonsContainer/GameButtonsContainer/StandButton").disabled = false
 
 		if result_label and is_instance_valid(result_label):
-			result_label.text = "Your move - Hit or Stand?"
+			result_label.text = "Your Move - Hit or Stand?"
 			
 			# Check for blackjack
 			check_for_blackjack()
@@ -333,7 +333,7 @@ func _on_hit_button_pressed():
 			# Auto-stand when player hits and gets exactly 21
 			print("Player hit to 21 - automatically standing")
 			if result_label and is_instance_valid(result_label):
-				result_label.text = "21! Standing automatically..."
+				result_label.text = "21! Standing Automatically..."
 			
 			# Add a slight delay for visual effect
 			await get_tree().create_timer(0.5).timeout
@@ -486,11 +486,11 @@ func end_game(result):
 		
 		# Update the message
 		if result_label and is_instance_valid(result_label):
-			result_label.text = "Previous bet placed: " + str(current_bet) + ". Ready to deal or adjust bet."
+			result_label.text = "Previous Bet Placed: " + str(current_bet) + "Ready to Deal or Adjust Bet!"
 	else:
 		# If player doesn't have enough chips for the previous bet
 		if result_label and is_instance_valid(result_label):
-			result_label.text += "\nPlace your bet to start a new hand."
+			result_label.text += "\nPlace Your Bet to Start a New Hand!"
 		
 		# Make sure Decrease button is disabled (no bet to decrease)
 		if has_node("UI/ButtonsPanelContainer/ButtonsContainer/BetButtonsContainer/BetDecreaseButton"):
@@ -526,7 +526,7 @@ func _on_back_button_pressed():
 		print("ERROR: Failed to return to casino floor using SceneManager")
 		# Show error to user
 		if result_label and is_instance_valid(result_label):
-			result_label.text = "Error returning to casino. Please restart."
+			result_label.text = "Error Returning to Casino! Please Restart!"
 	else:
 		print("Successfully transitioning to casino floor")
 	

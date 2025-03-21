@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://rs67wkptrvjo"]
+[gd_scene load_steps=6 format=3 uid="uid://rs67wkptrvjo"]
 
 [ext_resource type="Script" uid="uid://da6k157kvcem0" path="res://Scenes/Games/Blackjack/blackjack.gd" id="1_yk8rt"]
 [ext_resource type="PackedScene" uid="uid://b8tj7kn077d3v" path="res://Scenes/PlayingCards/card.tscn" id="2_3txm1"]
-[ext_resource type="Texture2D" uid="uid://bhcil67sdkh3u" path="res://Assets/table.png" id="2_i0vn2"]
+[ext_resource type="Texture2D" uid="uid://u6h547hb1p2w" path="res://Assets/Blackjack/background.png" id="2_6sunm"]
+[ext_resource type="Texture2D" uid="uid://c7m4y108chyj4" path="res://Assets/Slot Machine Assets/topbar.png" id="3_uxogw"]
 [ext_resource type="Theme" uid="uid://phgp7ky6igg7" path="res://Themes/buttons.tres" id="4_f7jlt"]
 
 [node name="Blackjack" type="Control"]
@@ -24,10 +25,23 @@ grow_vertical = 2
 color = Color(0.0588235, 0.34902, 0.188235, 1)
 
 [node name="Table" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
-texture = ExtResource("2_i0vn2")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_6sunm")
+expand_mode = 1
+
+[node name="TopBar" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 220.0
+grow_horizontal = 2
+texture = ExtResource("3_uxogw")
+expand_mode = 1
 
 [node name="GameArea" type="Node2D" parent="."]
 position = Vector2(960, 512)
@@ -41,10 +55,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -80.0
-offset_top = -133.0
-offset_right = 79.0
-offset_bottom = -64.0
+offset_left = -180.0
+offset_top = 194.5
+offset_right = 180.0
+offset_bottom = 263.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -55,7 +69,7 @@ text = "Dealer Jonotan"
 horizontal_alignment = 1
 
 [node name="DealerCards" type="Node2D" parent="GameArea/DealerArea"]
-position = Vector2(-96, 140)
+position = Vector2(-81, 47)
 
 [node name="Node2D" type="Node2D" parent="GameArea/DealerArea/DealerCards"]
 
@@ -67,10 +81,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -54.0
-offset_top = -67.0
-offset_right = 53.0
-offset_bottom = -32.0
+offset_left = -53.5
+offset_top = 288.5
+offset_right = 53.5
+offset_bottom = 323.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -84,30 +98,43 @@ horizontal_alignment = 1
 position = Vector2(0, 399)
 
 [node name="PlayerLabel" type="Label" parent="GameArea/PlayerArea"]
-offset_left = -73.0
-offset_top = 77.0
-offset_right = 78.0
-offset_bottom = 146.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.5
+offset_top = -126.5
+offset_right = 75.5
+offset_bottom = -57.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 50
-text = "Player"
+text = "Name"
 horizontal_alignment = 1
 
 [node name="PlayerCards" type="Node2D" parent="GameArea/PlayerArea"]
-position = Vector2(-93, -143)
+position = Vector2(-81, -33)
 
 [node name="Node2D" type="Node2D" parent="GameArea/PlayerArea/PlayerCards"]
 
-[node name="Card" parent="GameArea/PlayerArea/PlayerCards/Node2D" instance=ExtResource("2_3txm1")]
-position = Vector2(39, 12)
+[node name="Card" parent="GameArea/PlayerArea/PlayerCards" instance=ExtResource("2_3txm1")]
 
 [node name="PlayerScoreLabel" type="Label" parent="GameArea/PlayerArea"]
-offset_left = -50.0
-offset_top = 57.0
-offset_right = 53.0
-offset_bottom = 92.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -51.5
+offset_top = 110.5
+offset_right = 51.5
+offset_bottom = 145.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
@@ -123,45 +150,40 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="PanelContainer" type="PanelContainer" parent="UI/VBoxContainer"]
-layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="UI/VBoxContainer/PanelContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "Blackjack"
-
-[node name="ResultLabel" type="Label" parent="UI"]
+[node name="ResultContainer" type="PanelContainer" parent="UI"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -189.0
-offset_top = 30.5
-offset_right = 189.0
-offset_bottom = 65.5
+offset_left = -169.0
+offset_top = 124.0
+offset_right = 169.0
+offset_bottom = 164.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ResultLabel" type="Label" parent="UI/ResultContainer"]
+custom_minimum_size = Vector2(338, 0)
+layout_mode = 2
 theme_override_font_sizes/font_size = 25
-text = "Place your bet and deal to start"
+text = "Previous Bet Place: 100
+"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="ReturnButtonsContainer" type="HBoxContainer" parent="UI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -19.0
-offset_bottom = 40.0
+offset_left = -146.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 67.0
 grow_horizontal = 0
-theme_override_constants/separation = 35
+theme_override_constants/separation = 15
 
 [node name="BackButton" type="Button" parent="UI/ReturnButtonsContainer"]
 layout_mode = 2
@@ -183,10 +205,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -312.0
-offset_top = -375.0
-offset_right = -73.0
-offset_bottom = -35.0
+offset_left = -592.0
+offset_top = -488.0
+offset_right = -353.0
+offset_bottom = -148.0
 grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(1.03723, 0.93299)
